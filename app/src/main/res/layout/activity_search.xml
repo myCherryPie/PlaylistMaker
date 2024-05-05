@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="?attr/colorSecondary"
     tools:context=".SearchActivity">
 
     <LinearLayout
@@ -25,13 +25,39 @@
 
                 <ImageButton
                     android:id="@+id/arrow_back_from_search"
+                    style="@style/arrowTopBackStyle"
                     android:contentDescription="@string/arrow_back"
                     app:srcCompat="@drawable/vector" />
 
                 <TextView
+                    style="@style/textTopSecondStyle"
                     android:text="@string/search" />
             </LinearLayout>
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/major_LL_height">
+
+            <LinearLayout style="@style/edit_text_LL_search_style">
+
+                <ImageView
+                    style="@style/icon_search_style"
+                    app:srcCompat="@drawable/search" />
+
+                <EditText
+                    android:id="@+id/edit_text_search"
+                    style="@style/edit_text_LL_search_style"
+                    android:layout_weight="1"
+                    android:layout_marginStart="@dimen/text_edit_margin_start"
+                    android:layout_marginTop="@dimen/text_edit_margin_top"
+                    android:hint="@string/search" />
+
+                <ImageView
+                    android:id="@+id/clear_cross_search"
+                    style="@style/icon_clear_search_style"
+                    app:srcCompat="@drawable/clear_cross" />
+            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

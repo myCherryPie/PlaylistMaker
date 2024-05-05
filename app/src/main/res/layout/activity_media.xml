@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/white"
+    android:background="?attr/colorSecondary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MediaActivity">
@@ -20,9 +20,11 @@
             android:layout_marginStart="@dimen/top_margin_top_start">
             <ImageButton
                 android:id="@+id/arrow_back_from_media"
+                style="@style/arrowTopBackStyle"
                 android:contentDescription="@string/arrow_back"
                 app:srcCompat="@drawable/vector" />
             <TextView
+                style="@style/textTopSecondStyle"
                 android:text="@string/media" />
         </LinearLayout>
 
