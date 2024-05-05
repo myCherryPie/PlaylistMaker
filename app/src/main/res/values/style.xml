@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    !!------------basic---------------
+    <style name="textTopSecondStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textSize">@dimen/top_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">start</item>
+        <item name="android:layout_marginTop">@dimen/upper_string_margin_top</item>
+        <item name="android:layout_marginStart">@dimen/upper_string_margin_start</item>
+    </style>
+    <style name="textSecondStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textSize">@dimen/text_size_row_forSetting</item>
+        <item name="android:layout_marginStart">@dimen/margin_start_row</item>
+        <item name="android:layout_weight">9</item>
+        <item name="android:layout_gravity">center</item>
+
+    </style>
+
+    <style name="arrowTopBackStyle">
+        <item name="android:layout_width">@dimen/arrow_back_width_and_height</item>
+        <item name="android:layout_height">@dimen/arrow_back_width_and_height</item>
+        <item name="android:gravity">start</item>
+        <item name="android:background">?attr/colorSecondary</item>
+        <item name="tint">?attr/colorOnSecondary</item>
+    </style>
+
+    !!------------main---------------
+
+    <style name="textTopMainStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/top_text_size</item>
+        <item name="android:gravity">start</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginStart">12dp</item>
+        <item name="android:textStyle">bold</item>
+
+    </style>
+
+    <style name="buttonMainStyle">
+        <item name="cornerRadius">16dp</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat.Display1</item>
+        <item name="android:textColor">@color/text_icon_color</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconSize">@dimen/icon_size_setting</item>
+        <item name="iconTint">@color/text_icon_color</item>
+        <item name="iconPadding">@dimen/icon_padding_setting</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+
+    </style>
+
+    !!------------search---------------
+
+    !!------------media---------------
+
+    !!------------setting---------------
+
+    <style name="settingLL">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">61dp</item>
+        <item name="android:orientation">horizontal</item>
+
+    </style>
+
+    <style name="settingImageStyle">
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginEnd">@dimen/margin_End_forSetting</item>
+        <item name="android:background">?attr/colorSecondary</item>
+        <item name="android:layout_gravity">center</item>
+
+    </style>
+</resources>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:background="@color/white"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/major_LL_height"
+            android:layout_marginTop="@dimen/top_margin_top_start"
+            android:layout_marginStart="@dimen/top_margin_top_start">
+            <ImageButton
+                android:id="@+id/arrow_back_from_settings"
+                app:srcCompat="@drawable/vector"
+                android:contentDescription="@string/arrow_back" />
+            <TextView
+                android:text="@string/setting" />
+        </LinearLayout>
+
+        <LinearLayout >
+
+            <TextView
+                android:text="@string/dark_theme"
+                android:layout_marginStart="@dimen/margin_start_row"
+                android:layout_weight="9"
+                android:layout_gravity="center" />
+
+            <Switch
+                android:id="@+id/switch_dark_theme"
+                android:layout_width="32dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center"
+                android:layout_marginEnd="@dimen/margin_End_forSetting"
+                android:layout_weight="1"
+                android:thumbTint="@color/alpha_background"
+                tools:ignore="NestedWeights,UseSwitchCompatOrMaterialXml" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_share">
+
+            <TextView
+                android:text="@string/share"
+
+                />
+
+            <ImageButton
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/share"
+                android:contentDescription="@string/share" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/btn_send_to_support">
+
+            <TextView
+                android:text="@string/support"
+
+            <ImageButton
+                android:layout_width="20dp"
+                android:layout_height="18dp"
+                app:srcCompat="@drawable/support"
+                android:contentDescription="@string/support" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/contentDescription">
+
+            <TextView
+                android:text="@string/user_agreement" />
+
+            <ImageButton
+                android:layout_width="8dp"
+                android:layout_height="14dp"
+                app:srcCompat="@drawable/arrow_forward"
+                android:contentDescription="@string/user_agreement"
+
+                />
+
+        </LinearLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
