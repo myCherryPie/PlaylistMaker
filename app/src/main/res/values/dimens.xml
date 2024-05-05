@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    !!------basic--------------
+    <dimen name="arrow_back_width_and_height">48dp</dimen>
+    <dimen name="top_text_size">22sp</dimen>
+    <dimen name="major_LL_height">56dp</dimen>
+    <dimen name="upper_string_margin_top">10dp</dimen>
+    <dimen name="upper_string_margin_start">12dp</dimen>
+    <dimen name="top_margin_top_start">4dp</dimen>
+    <dimen name="margin_start_row">16dp</dimen>
+
+    !!------main---------------
+    <dimen name="layout_marginStart_End">20dp</dimen>
+    <dimen name="search_btn_top_margin">24dp</dimen>
+    <dimen name="search_and_media_btn_bottom_margin">16dp</dimen>
+    <dimen name="setting_btn_bottom_margin">28dp</dimen>
+
+    !!-------setting------------
+    <dimen name="icon_padding_setting">10dp</dimen>
+    <dimen name="icon_size_setting">19dp</dimen>
+    <dimen name="layout_height_row_forSetting">61dp</dimen>
+    <dimen name="text_size_row_forSetting">16sp</dimen>
+    <dimen name="margin_End_forSetting">12dp</dimen>
+
+    !!-------search-------------
+    <dimen name="ll_top_box_width_search">304dp</dimen>
+    <dimen name="ll_top_box_height_search">48dp</dimen>
+
+    !!-------media--------------
+
+
+</resources>
