@@ -29,19 +29,14 @@ class SearchActivity : AppCompatActivity() {
         }
         val editTextSearch = findViewById<EditText>(R.id.edit_text_search)
 
-        if (savedInstanceState != null) {
-            editTextSearch.setText(safeStringSearch).toString()
-        }
 
         val arrowBackFromSearch = findViewById<ImageButton>(R.id.arrow_back_from_search)
         arrowBackFromSearch.setOnClickListener {
-            val displayIntent = Intent(this, MainActivity::class.java)
-            startActivity(displayIntent)
+            finish()
         }
         val btnCrossClear = findViewById<ImageView>(R.id.clear_cross_search)
         btnCrossClear.setOnClickListener {
             editTextSearch.setText("")
-            inputHideManager(editTextSearch)
             editTextSearch.clearFocus()
             editTextSearch.isCursorVisible = false
         }
@@ -53,7 +48,7 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 btnCrossClear.visibility = visibilityClearButton(s)
-                countStringNow = s.toString()
+
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -63,20 +58,15 @@ class SearchActivity : AppCompatActivity() {
         editTextSearch.addTextChangedListener(textWatcherSearch)
     }
 
+    private var countValue: String = AMOUNT_DEF
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(countStringNow, safeStringSearch)
-    }
-
-    companion object {
-        var safeStringSearch = ""
-        var countStringNow = ""
+        outState.putString(PRODUCT_AMOUNT, countValue)
     }
 
     override fun onRestoreInstanceState(savedInstanceState: Bundle) {
         super.onRestoreInstanceState(savedInstanceState)
-        safeStringSearch = savedInstanceState.getString(countStringNow).toString()
-
+        countValue = savedInstanceState.getString(PRODUCT_AMOUNT, AMOUNT_DEF)
     }
 
     private fun visibilityClearButton(s: CharSequence?): Int {
@@ -87,9 +77,8 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private fun inputHideManager(editText: EditText) {
-        val inputMethodManager =
-            getSystemService(Context.INPUT_METHOD_SERVICE) as? InputMethodManager
-        inputMethodManager?.hideSoftInputFromWindow(editText.windowToken, 0)
+    companion object {
+        const val PRODUCT_AMOUNT = "PRODUCT_AMOUNT"
+        const val AMOUNT_DEF = ""
     }
 }

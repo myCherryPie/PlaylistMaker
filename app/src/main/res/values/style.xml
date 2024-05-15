@@ -47,7 +47,7 @@
 
     </style>
 
-    <style name="buttonMainStyle">
+    <style name="buttonMainStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="cornerRadius">16dp</item>
         <item name="android:backgroundTint">@color/white</item>
         <item name="android:textSize">22sp</item>

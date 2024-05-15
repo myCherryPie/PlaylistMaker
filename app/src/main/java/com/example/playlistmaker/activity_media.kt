@@ -21,8 +21,7 @@ class MediaActivity : AppCompatActivity() {
         val arrowBackFromMedia = findViewById<ImageButton>(R.id.arrow_back_from_media)
 
         arrowBackFromMedia.setOnClickListener {
-            val displayIntent = Intent(this, MainActivity::class.java)
-            startActivity(displayIntent)
+            finish()
         }
     }
 }
