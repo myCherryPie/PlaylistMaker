@@ -18,7 +18,7 @@
             android:layout_height="@dimen/major_LL_height">
 
             <LinearLayout
-                android:layout_width="@dimen/ll_top_box_width_search"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/ll_top_box_height_search"
                 android:layout_marginStart="@dimen/top_margin_top_start"
                 android:layout_marginTop="@dimen/top_margin_top_start">
