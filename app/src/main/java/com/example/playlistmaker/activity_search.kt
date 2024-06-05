@@ -22,6 +22,10 @@ class SearchActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_search)
 
+        if (savedInstanceState != null) {
+            countValue = savedInstanceState.getString(SEARCH_AMOUNT, AMOUNT_DEF)
+        }
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
@@ -32,6 +36,7 @@ class SearchActivity : AppCompatActivity() {
 
         val arrowBackFromSearch = findViewById<ImageButton>(R.id.arrow_back_from_search)
         arrowBackFromSearch.setOnClickListener {
+
             finish()
         }
         val btnCrossClear = findViewById<ImageView>(R.id.clear_cross_search)
@@ -44,6 +49,7 @@ class SearchActivity : AppCompatActivity() {
         val textWatcherSearch = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 editTextSearch.isCursorVisible = true
+
             }
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -61,12 +67,7 @@ class SearchActivity : AppCompatActivity() {
     private var countValue: String = AMOUNT_DEF
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(PRODUCT_AMOUNT, countValue)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle) {
-        super.onRestoreInstanceState(savedInstanceState)
-        countValue = savedInstanceState.getString(PRODUCT_AMOUNT, AMOUNT_DEF)
+        outState.putString(SEARCH_AMOUNT, countValue)
     }
 
     private fun visibilityClearButton(s: CharSequence?): Int {
@@ -78,7 +79,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val PRODUCT_AMOUNT = "PRODUCT_AMOUNT"
+        const val SEARCH_AMOUNT = "SEARCH_AMOUNT"
         const val AMOUNT_DEF = ""
     }
 }
