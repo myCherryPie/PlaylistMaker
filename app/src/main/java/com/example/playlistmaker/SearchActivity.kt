@@ -3,6 +3,7 @@ package com.example.playlistmaker
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
@@ -51,7 +52,7 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 btnCrossClear.visibility = visibilityClearButton(s)
-                editTextSearch.onSaveInstanceState()
+                countValue = editTextSearch.toString()
             }
 
             override fun afterTextChanged(s: Editable?) {
