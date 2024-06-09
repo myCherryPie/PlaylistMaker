@@ -23,9 +23,11 @@
     <dimen name="margin_End_forSetting">12dp</dimen>
 
     !!-------search-------------
-    <dimen name="ll_top_box_width_search">304dp</dimen>
     <dimen name="ll_top_box_height_search">48dp</dimen>
-
+    <dimen name="text_edit_height_search">36dp</dimen>
+    <dimen name="text_edit_radius_search">8dp</dimen>
+    <dimen name="text_edit_margin_start">6dp</dimen>
+    <dimen name="text_edit_margin_top">8dp</dimen>
     !!-------media--------------
 
 

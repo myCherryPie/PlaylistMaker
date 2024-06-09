@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    android:background="@color/white"
+    android:background="?attr/colorSecondary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SettingsActivity">
@@ -19,16 +19,19 @@
             android:layout_marginTop="@dimen/top_margin_top_start"
             android:layout_marginStart="@dimen/top_margin_top_start">
             <ImageButton
+                style="@style/arrowTopBackStyle"
                 android:id="@+id/arrow_back_from_settings"
                 app:srcCompat="@drawable/vector"
                 android:contentDescription="@string/arrow_back" />
             <TextView
+                style="@style/textTopSecondStyle"
                 android:text="@string/setting" />
         </LinearLayout>
 
-        <LinearLayout >
+        <LinearLayout style="@style/settingLL">
 
             <TextView
+                style="@style/textSecondStyle"
                 android:text="@string/dark_theme"
                 android:layout_marginStart="@dimen/margin_start_row"
                 android:layout_weight="9"
@@ -46,14 +49,17 @@
         </LinearLayout>
 
         <LinearLayout
+            style="@style/settingLL"
             android:id="@+id/btn_share">
 
             <TextView
                 android:text="@string/share"
+                style="@style/textSecondStyle"
 
                 />
 
             <ImageButton
+                style="@style/settingImageStyle"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 app:srcCompat="@drawable/share"
@@ -62,12 +68,15 @@
         </LinearLayout>
 
         <LinearLayout
+            style="@style/settingLL"
             android:id="@+id/btn_send_to_support">
 
             <TextView
                 android:text="@string/support"
+                style="@style/textSecondStyle" />
 
             <ImageButton
+                style="@style/settingImageStyle"
                 android:layout_width="20dp"
                 android:layout_height="18dp"
                 app:srcCompat="@drawable/support"
@@ -76,12 +85,15 @@
         </LinearLayout>
 
         <LinearLayout
+            style="@style/settingLL"
             android:id="@+id/contentDescription">
 
             <TextView
+                style="@style/textSecondStyle"
                 android:text="@string/user_agreement" />
 
             <ImageButton
+                style="@style/settingImageStyle"
                 android:layout_width="8dp"
                 android:layout_height="14dp"
                 app:srcCompat="@drawable/arrow_forward"
