@@ -53,11 +53,15 @@
                     android:layout_marginTop="@dimen/text_edit_margin_top"
                     android:hint="@string/search" />
 
-                <ImageView
+                <ImageView style="@style/icon_clear_search_style"
                     android:id="@+id/clear_cross_search"
-                    style="@style/icon_clear_search_style"
                     app:srcCompat="@drawable/clear_cross" />
             </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerTracks"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
