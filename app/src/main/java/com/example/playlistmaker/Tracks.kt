@@ -4,8 +4,12 @@ import android.provider.Settings.Global.getString
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+
 data class Track (
     val trackName: String,
     val artistName: String,
@@ -18,13 +22,20 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val trackName: TextView = itemView.findViewById(R.id.trackName)
         private val artistName: TextView = itemView.findViewById(R.id.artistName)
         private val trackTime: TextView = itemView.findViewById(R.id.trackTime)
-        private val iconTrack: TextView = itemView.findViewById(R.id.iconTrack)
+        private val iconTrack: ImageView = itemView.findViewById(R.id.iconTrack)
 
         fun bind(model: Track) {
+
             trackName.text = model.trackName
             artistName.text = model.artistName
             trackTime.text = model.trackTime
-            iconTrack.text = model.iconTrack
+            Glide.with(itemView)
+                .load(iconTrack)
+                .placeholder(R.drawable.placeholder)
+                .fitCenter()
+                .transform(RoundedCorners(2))
+                .into(iconTrack)
+
         }
 
     }
@@ -38,10 +49,12 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
             holder.bind(tracks[position])
-
         }
 
-        override fun getItemCount() = tracks.size
+        override fun getItemCount(): Int {
+            return tracks.size
+        }
+
     }
 
 

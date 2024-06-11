@@ -57,11 +57,12 @@
                     android:id="@+id/clear_cross_search"
                     app:srcCompat="@drawable/clear_cross" />
             </LinearLayout>
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerTracks"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
         </LinearLayout>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerTracks"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:listitem="@layout/track_view" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
