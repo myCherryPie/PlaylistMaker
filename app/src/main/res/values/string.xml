@@ -16,6 +16,7 @@
    <string name="clear_string">Очистить строку</string>
     <string name="my_email">rita@rita321.ru</string>
     <string name="linkUserAgreement">https://yandex.ru/legal/practicum_offer/</string>
+
     <string name="trackName_1">Smells Like Teen Spirit</string>
     <string name="artistName_1">Nirvana</string>
     <string name="trackTime_1">5:01</string>
@@ -24,7 +25,7 @@
     <string name="trackName_2">Billie Jean</string>
     <string name="artistName_2">Michael Jackson</string>
     <string name="trackTime_2">4:35</string>
-    <string name="artworkUrl100_2">https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg
+    <string name="artworkUrl100_2">"https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg"
 </string>
     <string name="trackName_3">Stayin\' Alive</string>
     <string name="artistName_3">Bee Gees</string>

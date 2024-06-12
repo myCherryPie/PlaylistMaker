@@ -28,13 +28,28 @@
     <dimen name="text_edit_radius_search">8dp</dimen>
     <dimen name="text_edit_margin_start">6dp</dimen>
     <dimen name="text_edit_margin_top">8dp</dimen>
-    <dimen name="LL_track_height_search">61dp</dimen>
+    <dimen name="icon_clear_width_and_height_search">16dp</dimen>
+    <dimen name="icon_clear_margin_end_search">12dp</dimen>
+    <dimen name="icon_clear_margin_top_search">10dp</dimen>
+    <dimen name="icon_clear_padding_search">2dp</dimen>
     <dimen name="image_track_side_search">45dp</dimen>
     <dimen name="image_track_top_margin_search">8dp</dimen>
-    <dimen name="image_track_left_margin_search">13dp</dimen>
-    <dimen name="image_track_radius_search">2dp</dimen>
-
-
+    <dimen name="image_track_margin_start_search">13dp</dimen>
+    <dimen name="icon_arrow_to_track_layout_width_search">8dp</dimen>
+    <dimen name="icon_arrow_to_track_layout_height_search">14dp</dimen>
+    <dimen name="icon_arrow_to_track_margin_end_search">20dp</dimen>
+    <dimen name="icon_arrow_to_track_margin_top_search">23dp</dimen>
+    <dimen name="LL_for_text_track_height_search">61dp</dimen>
+    <dimen name="text_name_track_size_search">16sp</dimen>
+    <dimen name="text_name_track_margin_top_search">14dp</dimen>
+    <dimen name="text_name_track_layout_height_search">19dp</dimen>
+    <dimen name="text_name_and_artist_track_layout_margin_start_search">8dp</dimen>
+    <dimen name="ic_cycle_layout_height_search">3dp</dimen>
+    <dimen name="ic_cycle_layout_margin_search">5dp</dimen>
+    <dimen name="artist_and_time_text_size_search">11sp</dimen>
+    <dimen name="artist_and_time_layout_height_search">13dp</dimen>
+    <dimen name="artist_and_time_layout_width_search">0dp</dimen>
+    <dimen name="artist_and_time_layout_weight_search">2</dimen>
 
     !!-------media--------------
 

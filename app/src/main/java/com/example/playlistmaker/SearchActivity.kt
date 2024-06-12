@@ -64,39 +64,41 @@ class SearchActivity : AppCompatActivity() {
             }
         }
         editTextSearch.addTextChangedListener(textWatcherSearch)
-        val track1 = Track(
-            getString(string.trackName_1),
-            getString(string.artistName_1),
-            getString(string.trackTime_1),
-            getString(string.artworkUrl100_1)
 
-        )
-        val track2 = Track(
+       val tracks = arrayListOf<Track>(
+             Track(
+                getString(string.trackName_1),
+        getString(string.artistName_1),
+        getString(string.trackTime_1),
+        getString(string.artworkUrl100_1)
+
+        ),
+        Track(
             getString(string.trackName_2),
             getString(string.artistName_2),
             getString(string.trackTime_2),
             getString(string.artworkUrl100_2)
-        )
+        ),
 
-        val track3 = Track(
+        Track(
             getString(string.trackName_3),
             getString(string.artistName_3),
             getString(string.trackTime_3),
             getString(string.artworkUrl100_3)
-        )
-        val track4 = Track(
+        ),
+         Track(
             getString(string.trackName_4),
             getString(string.artistName_4),
             getString(string.trackTime_4),
             getString(string.artworkUrl100_4)
-        )
-        val track5 = Track(
+        ),
+        Track(
             getString(string.trackName_5),
             getString(string.artistName_5),
             getString(string.trackTime_5),
             getString(string.artworkUrl100_5)
         )
-        var tracks = mutableListOf<Track>(track1,track2,track3,track4,track5)
+        )
         val tracksAdapter = TrackAdapter(tracks)
         val recyclerViewTrack = findViewById<RecyclerView>(R.id.recyclerTracks)
         recyclerViewTrack.layoutManager = LinearLayoutManager(this)

@@ -5,8 +5,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/LL_track_height_search"
-        android:orientation="horizontal">
+        android:layout_height="@dimen/LL_for_text_track_height_search"
+        android:orientation="horizontal"
+        >
 
         <ImageView style="@style/image_track_search_style"
             android:id="@+id/iconTrack"
@@ -16,7 +17,6 @@
         <LinearLayout style="@style/LL_for_text_track_search_style">
             <TextView
                 style="@style/text_name_track_search_style"
-                android:layout_width="match_parent"
                 android:id="@+id/trackName"
                  />
             <LinearLayout
@@ -31,12 +31,10 @@
                     <TextView
                         style="@style/text_artist_track_search_style"
                         android:id="@+id/artistName"
-
                         />
 
                     <ImageView
                         style="@style/ic_cycle_in_text_search_style"
-                        android:layout_width="wrap_content"
                         android:src="@drawable/ellipse" />
                     <TextView
                         style="@style/track_time_text_search_style"

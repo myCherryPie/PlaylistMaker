@@ -48,14 +48,11 @@
                 <EditText
                     android:id="@+id/edit_text_search"
                     style="@style/edit_text_LL_search_style"
-                    android:layout_weight="1"
-                    android:layout_marginStart="@dimen/text_edit_margin_start"
-                    android:layout_marginTop="@dimen/text_edit_margin_top"
-                    android:hint="@string/search" />
+                   />
 
                 <ImageView style="@style/icon_clear_search_style"
                     android:id="@+id/clear_cross_search"
-                    app:srcCompat="@drawable/clear_cross" />
+                     />
             </LinearLayout>
         </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
