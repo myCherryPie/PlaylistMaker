@@ -39,7 +39,7 @@
     <dimen name="icon_arrow_to_track_layout_height_search">14dp</dimen>
     <dimen name="icon_arrow_to_track_margin_end_search">20dp</dimen>
     <dimen name="icon_arrow_to_track_margin_top_search">23dp</dimen>
-    <dimen name="LL_for_text_track_height_search">61dp</dimen>
+    <dimen name="LL_for_text_track_height_search">64dp</dimen>
     <dimen name="text_name_track_size_search">16sp</dimen>
     <dimen name="text_name_track_margin_top_search">14dp</dimen>
     <dimen name="text_name_track_layout_height_search">19dp</dimen>
@@ -48,9 +48,8 @@
     <dimen name="ic_cycle_layout_margin_search">5dp</dimen>
     <dimen name="artist_and_time_text_size_search">11sp</dimen>
     <dimen name="artist_and_time_layout_height_search">13dp</dimen>
-    <dimen name="artist_and_time_layout_width_search">0dp</dimen>
-    <dimen name="artist_and_time_layout_weight_search">2</dimen>
-
+    <dimen name="artist_and_time_layout_width_search">54dp</dimen>
+<dimen name="coroner_icon_track_search">2dp</dimen>
     !!-------media--------------
 
 

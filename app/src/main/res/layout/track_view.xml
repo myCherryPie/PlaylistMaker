@@ -1,58 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="@dimen/LL_for_text_track_height_search">
+        <ImageView
+
+            android:layout_width = "@dimen/image_track_side_search"
+            android:layout_height = "@dimen/image_track_side_search"
+            android:orientation = "horizontal"
+            android:layout_marginStart = "@dimen/image_track_margin_start_search"
+            android:layout_marginTop = "@dimen/text_edit_margin_top"
+            android:id="@+id/iconTrack"
+            />
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_weight="2"
+        android:layout_width="0dp"
         android:layout_height="@dimen/LL_for_text_track_height_search"
-        android:orientation="horizontal"
+        android:layout_marginStart="@dimen/text_name_and_artist_track_layout_margin_start_search"
+        android:gravity="start"
+        android:orientation="vertical"
         >
 
-        <ImageView style="@style/image_track_search_style"
-            android:id="@+id/iconTrack"
-            >
-        </ImageView>
+        <TextView
+            android:id="@+id/trackName"
+            style="@style/text_name_track_search_style"
+            android:ellipsize="end"
+            android:maxLines="1"
+            />
 
-        <LinearLayout style="@style/LL_for_text_track_search_style">
-            <TextView
-                style="@style/text_name_track_search_style"
-                android:id="@+id/trackName"
-                 />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:orientation="horizontal">
+
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="13dp"
-                android:orientation="horizontal">
+                android:layout_width="0dp"
+                android:layout_height="12dp"
+                android:layout_weight="1">
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="13dp"
-                    android:layout_weight="1">
-                    <TextView
-                        style="@style/text_artist_track_search_style"
-                        android:id="@+id/artistName"
-                        />
+                <TextView
+                    android:id="@+id/artistName"
+                    style="@style/text_artist_track_search_style"
+                    android:layout_width="@dimen/artist_and_time_layout_width_search"
+                    android:ellipsize="end"
+                    android:maxLines="1"/>
 
-                    <ImageView
-                        style="@style/ic_cycle_in_text_search_style"
-                        android:src="@drawable/ellipse" />
-                    <TextView
-                        style="@style/track_time_text_search_style"
-                        android:id="@+id/trackTime"
+                <ImageView
 
-                        />
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="13dp"
-                    android:layout_weight="1"
+                    android:layout_height="@dimen/ic_cycle_layout_height_search"
+                    android:layout_width="wrap_content"
+                    android:layout_margin="@dimen/ic_cycle_layout_margin_search"
+                    android:gravity="center"
+                    android:src="@drawable/ellipse" />
+
+                <TextView
+                    android:id="@+id/trackTime"
+                    android:layout_width="64dp"
+                    style="@style/track_time_text_search_style"
+
                     />
             </LinearLayout>
-
         </LinearLayout>
-
-        <ImageView style="@style/icon_arrow_to_track_search_style"
-            android:src="@drawable/arrow_forward"/>
     </LinearLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <ImageView
+            style="@style/icon_arrow_to_track_search_style"
+            android:src="@drawable/arrow_forward" />
+</LinearLayout>

@@ -101,13 +101,6 @@
         <item name="srcCompat">@drawable/clear_cross</item>
 
     </style>
-    <style name="image_track_search_style">
-        <item name="android:layout_width">@dimen/image_track_side_search</item>
-        <item name="android:layout_height">@dimen/image_track_side_search</item>
-        <item name="android:orientation">horizontal</item>
-        <item name="android:layout_marginStart">@dimen/image_track_margin_start_search</item>
-        <item name="android:layout_marginTop">@dimen/text_edit_margin_top</item>
-    </style>
     <style name="icon_arrow_to_track_search_style">
         <item name="android:layout_width">@dimen/icon_arrow_to_track_layout_width_search</item>
         <item name="android:layout_height">@dimen/icon_arrow_to_track_layout_height_search</item>
@@ -117,13 +110,7 @@
         <item name="android:gravity">start</item>
         <item name="android:layout_marginTop">@dimen/icon_arrow_to_track_margin_top_search</item>
     </style>
-    <style name="LL_for_text_track_search_style">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">@dimen/LL_for_text_track_height_search</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:layout_weight">2</item>
-        <item name="android:layout_marginStart">@dimen/text_name_and_artist_track_layout_margin_start_search</item>
-    </style>
+
             <style name="text_name_track_search_style">
                 <item name="android:layout_width">match_parent</item>
                 <item name="android:layout_height">@dimen/text_name_track_layout_height_search</item>
@@ -135,15 +122,11 @@
                 <item name="background">?attr/colorSecondary</item>
                 <item name="android:hint">@string/trackName</item>
                 <item name="fontFamily">@font/ys_text_regular</item>
-                <item name="maxLines">1</item>
-                <item name="android:ellipsize">end</item>
-                <item name="singleLine">true</item>
             </style>
     <style name="text_artist_track_search_style">
         <item name="android:layout_width">@dimen/artist_and_time_layout_width_search</item>
         <item name="android:layout_height">@dimen/artist_and_time_layout_height_search</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:layout_weight">2</item>
         <item name="android:layout_marginStart">@dimen/text_name_and_artist_track_layout_margin_start_search</item>
         <item name="android:textSize">@dimen/artist_and_time_text_size_search</item>
         <item name="android:textColor">@color/dark_grey</item>
@@ -151,20 +134,11 @@
         <item name="android:hint">@string/artistName</item>
         <item name="android:gravity">start</item>
         <item name="fontFamily">@font/ys_text_regular</item>
-        <item name="maxLines">1</item>
-        <item name="android:ellipsize">end</item>
-        <item name="singleLine">true</item>
     </style>
-            <style name="ic_cycle_in_text_search_style">
-                <item name="android:layout_height">@dimen/ic_cycle_layout_height_search</item>
-                <item name="android:layout_width">wrap_content</item>
-                <item name="android:layout_margin">@dimen/ic_cycle_layout_margin_search</item>
-                <item name="android:gravity">center</item>
-            </style>
+
             <style name="track_time_text_search_style">
                 <item name="android:gravity">start</item>
                 <item name="android:layout_width">@dimen/artist_and_time_layout_width_search</item>
-                <item name="android:layout_weight">2</item>
                 <item name="android:layout_height">@dimen/artist_and_time_layout_height_search</item>
                 <item name="android:textSize">@dimen/artist_and_time_text_size_search</item>
                 <item name="android:textColor">@color/dark_grey</item>
