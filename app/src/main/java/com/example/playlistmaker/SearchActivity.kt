@@ -3,7 +3,6 @@ package com.example.playlistmaker
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
@@ -12,6 +11,11 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.playlistmaker.R.string
+import com.bumptech.glide.Glide
+import kotlin.random.Random
 
 class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +64,47 @@ class SearchActivity : AppCompatActivity() {
             }
         }
         editTextSearch.addTextChangedListener(textWatcherSearch)
+
+       val tracks = arrayListOf<Track>(
+             Track(
+                getString(string.trackName_1),
+        getString(string.artistName_1),
+        getString(string.trackTime_1),
+        getString(string.artworkUrl100_1)
+
+        ),
+        Track(
+            getString(string.trackName_2),
+            getString(string.artistName_2),
+            getString(string.trackTime_2),
+            getString(string.artworkUrl100_2)
+        ),
+
+        Track(
+            getString(string.trackName_3),
+            getString(string.artistName_3),
+            getString(string.trackTime_3),
+            getString(string.artworkUrl100_3)
+        ),
+         Track(
+            getString(string.trackName_4),
+            getString(string.artistName_4),
+            getString(string.trackTime_4),
+            getString(string.artworkUrl100_4)
+        ),
+        Track(
+            getString(string.trackName_5),
+            getString(string.artistName_5),
+            getString(string.trackTime_5),
+            getString(string.artworkUrl100_5)
+        )
+        )
+        val tracksAdapter = TrackAdapter(tracks)
+        val recyclerViewTrack = findViewById<RecyclerView>(R.id.recyclerTracks)
+        recyclerViewTrack.layoutManager = LinearLayoutManager(this)
+        recyclerViewTrack.adapter = tracksAdapter
+
+
     }
 
     private var countValue: String = AMOUNT_DEF
@@ -76,8 +121,10 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+
     companion object {
         const val SEARCH_AMOUNT = "SEARCH_AMOUNT"
         const val AMOUNT_DEF = ""
     }
 }
+

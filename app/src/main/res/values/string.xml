@@ -1,0 +1,48 @@
+<resources>
+    <string name="app_name">Playlist Maker</string>
+    <string name="search">Поиск</string>
+    <string name="media">Медиатека</string>
+    <string name="setting">Настройки</string>
+    <string name="share">Поделиться приложением</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="arrow_back">arrow_back</string>
+    <string name="support">Написать в поддержку</string>
+    <string name="user_agreement">Пользовательское соглашение</string>
+    <string name="textEmail">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="themeMessage">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="urlYandexAndroid">https://practicum.yandex.ru/android-developer/?from=catalog</string>
+    <string name="share_with">Поделиться с помощью</string>
+    <string name="nothing">Нет подходящего приложения</string>
+   <string name="clear_string">Очистить строку</string>
+    <string name="my_email">rita@rita321.ru</string>
+    <string name="linkUserAgreement">https://yandex.ru/legal/practicum_offer/</string>
+
+    <string name="trackName_1">Smells Like Teen Spirit</string>
+    <string name="artistName_1">Nirvana</string>
+    <string name="trackTime_1">5:01</string>
+    <string name="artworkUrl100_1">https://is5-ssl.mzstatic.com/image/thumb/Music115/v4/7b/58/c2/7b58c21a-2b51-2bb2-e59a-9bb9b96ad8c3/00602567924166.rgb.jpg/100x100bb.jpg
+</string>
+    <string name="trackName_2">Billie Jean</string>
+    <string name="artistName_2">Michael Jackson</string>
+    <string name="trackTime_2">4:35</string>
+    <string name="artworkUrl100_2">"https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/3d/9d/38/3d9d3811-71f0-3a0e-1ada-3004e56ff852/827969428726.jpg/100x100bb.jpg"
+</string>
+    <string name="trackName_3">Stayin\' Alive</string>
+    <string name="artistName_3">Bee Gees</string>
+    <string name="trackTime_3">4:10</string>
+    <string name="artworkUrl100_3">https://is4-ssl.mzstatic.com/image/thumb/Music115/v4/1f/80/1f/1f801fc1-8c0f-ea3e-d3e5-387c6619619e/16UMGIM86640.rgb.jpg/100x100bb.jpg
+</string>
+    <string name="trackName_4">Whole Lotta Love</string>
+    <string name="artistName_4">Led Zeppelin</string>
+    <string name="trackTime_4">5:33</string>
+    <string name="artworkUrl100_4">https://is2-ssl.mzstatic.com/image/thumb/Music62/v4/7e/17/e3/7e17e33f-2efa-2a36-e916-7f808576cf6b/mzm.fyigqcbs.jpg/100x100bb.jpg
+</string>
+    <string name="trackName_5">Sweet Child O\'Mine</string>
+    <string name="artistName_5">Guns N\' Roses</string>
+    <string name="trackTime_5">5:03</string>
+    <string name="artworkUrl100_5">https://is5-ssl.mzstatic.com/image/thumb/Music125/v4/a0/4d/c4/a04dc484-03cc-02aa-fa82-5334fcb4bc16/18UMGIM24878.rgb.jpg/100x100bb.jpg
+</string>
+    <string name="artistName">Группa</string>
+    <string name="trackName">Название трека</string>
+    <string name="time">Длительность</string>
+</resources>

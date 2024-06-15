@@ -21,9 +21,7 @@
         <item name="android:layout_marginStart">@dimen/margin_start_row</item>
         <item name="android:layout_weight">9</item>
         <item name="android:layout_gravity">center</item>
-
     </style>
-
     <style name="arrowTopBackStyle">
         <item name="android:layout_width">@dimen/arrow_back_width_and_height</item>
         <item name="android:layout_height">@dimen/arrow_back_width_and_height</item>
@@ -44,9 +42,7 @@
         <item name="android:layout_marginTop">10dp</item>
         <item name="android:layout_marginStart">12dp</item>
         <item name="android:textStyle">bold</item>
-
     </style>
-
     <style name="buttonMainStyle" parent="Widget.MaterialComponents.Button.UnelevatedButton">
         <item name="cornerRadius">16dp</item>
         <item name="android:backgroundTint">@color/white</item>
@@ -61,7 +57,6 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">0dp</item>
         <item name="fontFamily">@font/ys_display_medium</item>
-
     </style>
 
     !!------------search---------------
@@ -72,8 +67,10 @@
         <item name="android:backgroundTint">?attr/editTextBackground</item>
         <item name="android:gravity">start</item>
         <item name="android:layout_marginEnd">@dimen/margin_start_row</item>
-        <item name="android:layout_marginStart">@dimen/margin_start_row</item>
+        <item name="android:layout_marginStart">@dimen/text_edit_margin_start</item>
         <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:hint">@string/search</item>
         <item name="android:textColor">@android:color/black</item>
         <item name="android:textColorHint">@color/dark_grey</item>
         <item name="android:textSize">16sp</item>
@@ -83,9 +80,7 @@
         <item name="android:maxLength">15</item>
         <item name="android:imeOptions">actionSearch</item>
         <item name="android:inputType">text</item>
-
     </style>
-
     <style name="icon_search_style">
         <item name="android:layout_width">16dp</item>
         <item name="android:layout_height">16dp</item>
@@ -93,29 +88,73 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:layout_marginStart">16dp</item>
         <item name="tint">@color/dark_grey</item>
-
     </style>
     <style name="icon_clear_search_style">
-        <item name="android:layout_width">16dp</item>
-        <item name="android:layout_height">16dp</item>
-        <item name="android:layout_marginEnd">12dp</item>
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:padding">2dp</item>
+        <item name="android:layout_width">@dimen/icon_clear_width_and_height_search</item>
+        <item name="android:layout_height">@dimen/icon_clear_width_and_height_search</item>
+        <item name="android:layout_marginEnd">@dimen/icon_clear_margin_end_search</item>
+        <item name="android:layout_marginTop">@dimen/icon_clear_margin_top_search</item>
+        <item name="android:padding">@dimen/icon_clear_padding_search</item>
         <item name="tint">@color/dark_grey</item>
         <item name="android:visibility">invisible</item>
         <item name="contentDescription">@string/clear_string</item>
+        <item name="srcCompat">@drawable/clear_cross</item>
+
     </style>
+    <style name="icon_arrow_to_track_search_style">
+        <item name="android:layout_width">@dimen/icon_arrow_to_track_layout_width_search</item>
+        <item name="android:layout_height">@dimen/icon_arrow_to_track_layout_height_search</item>
+        <item name="android:layout_marginStart">@dimen/text_name_and_artist_track_layout_margin_start_search</item>
+        <item name="android:layout_marginEnd">@dimen/icon_arrow_to_track_margin_end_search</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">start</item>
+        <item name="android:layout_marginTop">@dimen/icon_arrow_to_track_margin_top_search</item>
+    </style>
+
+            <style name="text_name_track_search_style">
+                <item name="android:layout_width">match_parent</item>
+                <item name="android:layout_height">@dimen/text_name_track_layout_height_search</item>
+                <item name="android:orientation">horizontal</item>
+                <item name="android:layout_marginTop">@dimen/text_name_track_margin_top_search</item>
+                <item name="android:layout_marginStart">@dimen/text_name_and_artist_track_layout_margin_start_search</item>
+                <item name="android:textSize">@dimen/text_name_track_size_search</item>
+                <item name="android:textColor">?attr/colorOnSecondary</item>
+                <item name="background">?attr/colorSecondary</item>
+                <item name="android:hint">@string/trackName</item>
+                <item name="fontFamily">@font/ys_text_regular</item>
+            </style>
+    <style name="text_artist_track_search_style">
+        <item name="android:layout_width">@dimen/artist_and_time_layout_width_search</item>
+        <item name="android:layout_height">@dimen/artist_and_time_layout_height_search</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginStart">@dimen/text_name_and_artist_track_layout_margin_start_search</item>
+        <item name="android:textSize">@dimen/artist_and_time_text_size_search</item>
+        <item name="android:textColor">@color/dark_grey</item>
+        <item name="background">?attr/colorSecondary</item>
+        <item name="android:hint">@string/artistName</item>
+        <item name="android:gravity">start</item>
+        <item name="fontFamily">@font/ys_text_regular</item>
+    </style>
+
+            <style name="track_time_text_search_style">
+                <item name="android:gravity">start</item>
+                <item name="android:layout_width">@dimen/artist_and_time_layout_width_search</item>
+                <item name="android:layout_height">@dimen/artist_and_time_layout_height_search</item>
+                <item name="android:textSize">@dimen/artist_and_time_text_size_search</item>
+                <item name="android:textColor">@color/dark_grey</item>
+                <item name="background">?attr/colorSecondary</item>
+                <item name="android:hint">@string/time</item>
+                <item name="fontFamily">@font/ys_text_regular</item>
+            </style>
+
     !!------------media---------------
 
     !!------------setting---------------
-
     <style name="settingLL">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">61dp</item>
         <item name="android:orientation">horizontal</item>
-
     </style>
-
     <style name="settingImageStyle">
         <item name="android:layout_weight">1</item>
         <item name="android:layout_marginEnd">@dimen/margin_End_forSetting</item>
