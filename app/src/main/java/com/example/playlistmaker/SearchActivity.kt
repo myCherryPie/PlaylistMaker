@@ -4,20 +4,26 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.R.string
-import com.bumptech.glide.Glide
-import kotlin.random.Random
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class SearchActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -33,8 +39,13 @@ class SearchActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val editTextSearch = findViewById<EditText>(R.id.edit_text_search)
-
+        editTextSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                search()
+                true
+            }
+            false
+                    }
 
         val arrowBackFromSearch = findViewById<ImageButton>(R.id.arrow_back_from_search)
         arrowBackFromSearch.setOnClickListener {
@@ -65,46 +76,9 @@ class SearchActivity : AppCompatActivity() {
         }
         editTextSearch.addTextChangedListener(textWatcherSearch)
 
-       val tracks = arrayListOf<Track>(
-             Track(
-                getString(string.trackName_1),
-        getString(string.artistName_1),
-        getString(string.trackTime_1),
-        getString(string.artworkUrl100_1)
-
-        ),
-        Track(
-            getString(string.trackName_2),
-            getString(string.artistName_2),
-            getString(string.trackTime_2),
-            getString(string.artworkUrl100_2)
-        ),
-
-        Track(
-            getString(string.trackName_3),
-            getString(string.artistName_3),
-            getString(string.trackTime_3),
-            getString(string.artworkUrl100_3)
-        ),
-         Track(
-            getString(string.trackName_4),
-            getString(string.artistName_4),
-            getString(string.trackTime_4),
-            getString(string.artworkUrl100_4)
-        ),
-        Track(
-            getString(string.trackName_5),
-            getString(string.artistName_5),
-            getString(string.trackTime_5),
-            getString(string.artworkUrl100_5)
-        )
-        )
-        val tracksAdapter = TrackAdapter(tracks)
         val recyclerViewTrack = findViewById<RecyclerView>(R.id.recyclerTracks)
         recyclerViewTrack.layoutManager = LinearLayoutManager(this)
         recyclerViewTrack.adapter = tracksAdapter
-
-
     }
 
     private var countValue: String = AMOUNT_DEF
@@ -121,6 +95,62 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    private val retrofit = Retrofit.Builder()
+        .baseUrl(getString(R.string.base_url_itunes))
+        .addConverterFactory(GsonConverterFactory.create())
+        .build()
+    private val playListService = retrofit.create(ItunseApi::class.java)
+    var tracks = mutableListOf<Track>()
+    val tracksAdapter = TrackAdapter(tracks)
+    var placeholderTextError: TextView = findViewById<TextView>(R.id.text_error_search)
+    var placeholderImageErorr: ImageView = findViewById<ImageView>(R.id.image_error_search)
+    val editTextSearch: EditText = findViewById<EditText>(R.id.edit_text_search)
+    private fun search() {
+
+        if (editTextSearch.text.isNotEmpty()) {
+            playListService.search(editTextSearch.text.toString()).enqueue(object : Callback<SearchResponse> {
+                override fun onResponse(
+                    call: Call<SearchResponse>,
+                    response: Response<SearchResponse>
+                ) {
+                    if (response.code() == 200) {
+                        tracks.clear()
+                        if (response.body()?.results?.isNotEmpty() == true) {
+                            tracks.addAll(response.body()?.results!!)
+                            tracksAdapter.notifyDataSetChanged()
+                        }
+                        if (tracks.isEmpty()) {
+                            showError(getString(R.string.nothing_found), "")
+                        } else {
+                            showError("", "")
+                        }
+                    } else {
+                        showError(getString(R.string.no_link), response.code().toString())
+                    }
+                }
+
+                override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+                    TODO("Not yet implemented")
+                }
+                fun showError(text: String, additionalMessage: String) {
+                    if (text.isNotEmpty()) {
+                        placeholderImageErorr.visibility = View.VISIBLE
+                        placeholderTextError.visibility = View.VISIBLE
+                        tracks.clear()
+                        tracksAdapter.notifyDataSetChanged()
+                        placeholderImageErorr
+                        placeholderTextError.text = text
+                        if (additionalMessage.isNotEmpty()) {
+                            Toast.makeText(applicationContext, additionalMessage, Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    } else {
+                        placeholderTextError.visibility = View.GONE
+                    }
+                }
+            })
+        }
+    }
 
     companion object {
         const val SEARCH_AMOUNT = "SEARCH_AMOUNT"
