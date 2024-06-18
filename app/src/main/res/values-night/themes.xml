@@ -11,5 +11,7 @@
         <item name="editTextBackground">@color/white</item>
         <item name="colorTertiary">@color/white</item>
         <item name="colorOnTertiary">@color/dark_background</item>
+        <item name="searchIcon">@drawable/dark_no_link</item>
+
     </style>
 </resources>

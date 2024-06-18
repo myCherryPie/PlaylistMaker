@@ -61,14 +61,17 @@
                     android:id="@+id/recyclerTracks"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:listitem="@layout/track_view" />
+                    tools:listitem="@layout/track_view"
+                    android:visibility="visible"
+                    />
         <ImageView
             android:id="@+id/image_error_search"
             android:layout_width="@dimen/width_image_error"
             android:layout_height="@dimen/height_image_error"
             android:layout_marginTop="@dimen/margin_top_image_error"
             android:layout_gravity="center"
-            android:visibility="gone"/>
+            android:visibility="gone"
+            />
         <TextView
             android:id="@+id/text_error_search"
             android:layout_width="@dimen/text_error_width"

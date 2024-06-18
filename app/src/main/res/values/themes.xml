@@ -10,7 +10,7 @@
         <item name="colorOnPrimary">@color/text_icon_color</item>
         <item name="colorOnSecondary">@color/text_icon_color</item>
         <item name="editTextBackground">@color/grey_back_text_edit</item>
-
+        <item name="searchIcon">@drawable/light_no_link</item>
     </style>
 
     <style name="Theme.PlaylistMaker" parent="Base.Theme.PlaylistMaker" />

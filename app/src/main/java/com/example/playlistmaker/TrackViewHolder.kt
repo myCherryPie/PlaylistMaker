@@ -1,6 +1,6 @@
 package com.example.playlistmaker
 
-import android.content.res.Resources
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -9,8 +9,6 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import java.text.SimpleDateFormat
 import java.util.Locale
-
-val Int.dp: Int get() = (this / Resources.getSystem().displayMetrics.density).toInt()
 
 class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -21,7 +19,7 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(item: Track) {
 
-        val cornerImageTrack = 2.dp
+        val cornerImageTrack = 2f
 
         trackName.text = item.trackName
         artistName.text = item.artistName
@@ -30,7 +28,14 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .load(item.artworkUrl100)
             .placeholder(R.drawable.placeholder)
             .fitCenter()
-            .transform(RoundedCorners(cornerImageTrack))
+            .transform(RoundedCorners(
+                TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    cornerImageTrack,
+                    itemView.context.resources.displayMetrics
+                ).toInt()
+            )
+            )
             .into(iconTrack)
     }
 

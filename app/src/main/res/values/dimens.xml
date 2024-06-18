@@ -52,13 +52,14 @@
     <dimen name="coroner_icon_track_search">2dp</dimen>
     <dimen name="width_image_error">120dp</dimen>
     <dimen name="height_image_error">120dp</dimen>
-    <dimen name="margin_top_image_error">210dp</dimen>
-    <dimen name="text_error_margin_top">346dp</dimen>
+    <dimen name="margin_top_image_error">100dp</dimen>
+    <dimen name="text_error_margin_top">16dp</dimen>
     <dimen name="text_error_width">312dp</dimen>
     <dimen name="text_error_margin_start">24dp</dimen>
     <dimen name="text_error_text_size">19sp</dimen>
     <dimen name="button_update_text_size_search">14sp</dimen>
-    <dimen name="button_update_margin_top_search">458dp</dimen>
+    <dimen name="button_update_margin_top_search">88dp</dimen>
+
     !!-------media--------------
 
 
