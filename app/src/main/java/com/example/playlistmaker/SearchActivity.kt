@@ -1,6 +1,5 @@
 package com.example.playlistmaker
 
-import android.app.PendingIntent.getActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -11,7 +10,6 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -42,8 +40,9 @@ class SearchActivity : AppCompatActivity() {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val playListService = retrofit.create(ItunseApi::class.java)
-        val placeTextError: TextView = findViewById<TextView>(R.id.text_error_search)
-        val placeImageErorr = findViewById<ImageView>(R.id.image_error_search)
+        val placeImgLinkErr = findViewById<ImageView>(R.id.image_error_link)
+        val placeTextError: TextView = findViewById(R.id.text_error_search)
+        val placeImgSearchErr = findViewById<ImageView>(R.id.image_error_search)
         val editTextSearch = findViewById<EditText>(R.id.edit_text_search)
         val btnUpdateSearch = findViewById<Button>(R.id.btn_update_search)
 
@@ -70,7 +69,8 @@ class SearchActivity : AppCompatActivity() {
             editTextSearch.clearFocus()
             editTextSearch.isCursorVisible = false
             btnUpdateSearch.visibility = View.GONE
-            placeImageErorr.visibility = View.GONE
+            placeImgSearchErr.visibility = View.GONE
+            placeImgLinkErr.visibility = View.GONE
             placeTextError.visibility = View.GONE
         }
 
@@ -90,12 +90,12 @@ class SearchActivity : AppCompatActivity() {
             }
         }
 
-
         val recyclerViewTrack = findViewById<RecyclerView>(R.id.recyclerTracks)
         recyclerViewTrack.layoutManager = LinearLayoutManager(this)
         recyclerViewTrack.adapter = tracksAdapter
 
-         fun search() {
+
+         fun findByInput() {
             if (editTextSearch.text.isNotEmpty()) {
                 playListService.search(editTextSearch.text.toString()).enqueue(object : Callback<SearchResponse> {
                     override fun onResponse(
@@ -107,33 +107,39 @@ class SearchActivity : AppCompatActivity() {
                             if (response.body()?.results?.isNotEmpty() == true) {
                                 tracks.addAll(response.body()?.results!!)
                                 tracksAdapter.notifyDataSetChanged()
-                                placeImageErorr.visibility = View.GONE
+                                placeImgSearchErr.visibility = View.GONE
+//                                placeImgLinkErr.visibility = View.GONE
                                 placeTextError.visibility = View.GONE
                                 btnUpdateSearch.visibility = View.GONE
                             }
                             if (tracks.isEmpty()) {
-                                placeImageErorr.visibility = View.VISIBLE
+                                recyclerViewTrack.visibility = View.GONE
+                                placeImgSearchErr.visibility = View.VISIBLE
                                 placeTextError.visibility = View.VISIBLE
                                 btnUpdateSearch.visibility = View.GONE
-                                placeImageErorr.setImageResource(R.drawable.light_nothing_found)
                                 placeTextError.setText(R.string.nothing_found)
-
                             }
                         } else {
-                            placeImageErorr.visibility = View.VISIBLE
+                            recyclerViewTrack.visibility = View.GONE
+                            placeImgLinkErr.visibility = View.VISIBLE
                             placeTextError.visibility = View.VISIBLE
-                            btnUpdateSearch.visibility = View.VISIBLE
-                            placeImageErorr.setImageResource(R.drawable.light_no_link)
-                            placeTextError.setText(R.string.no_link)
+                            placeTextError.setText(response.code())
                         }
                     }
 
                     override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                        placeImageErorr.visibility = View.VISIBLE
+                        recyclerViewTrack.visibility = View.GONE
+                        placeImgLinkErr.visibility = View.VISIBLE
                         placeTextError.visibility = View.VISIBLE
                         btnUpdateSearch.visibility = View.VISIBLE
-                        placeImageErorr.setImageResource(R.drawable.light_no_link)
                         placeTextError.setText(R.string.no_link)
+                        btnUpdateSearch.setOnClickListener {
+                            recyclerViewTrack.visibility = View.VISIBLE
+                            placeImgLinkErr.visibility = View.GONE
+                            placeTextError.visibility = View.GONE
+                            btnUpdateSearch.visibility = View.GONE
+                            findByInput()
+                        }
                     }
 
                 })
@@ -141,7 +147,7 @@ class SearchActivity : AppCompatActivity() {
         }
         editTextSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                search()
+                findByInput()
                 true
             }
             false
@@ -149,9 +155,7 @@ class SearchActivity : AppCompatActivity() {
 
         editTextSearch.addTextChangedListener(textWatcherSearch)
 
-        btnUpdateSearch.setOnClickListener {
-            search()
-        }
+
     }
 
     private var countValue: String = AMOUNT_DEF

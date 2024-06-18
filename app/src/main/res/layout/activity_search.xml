@@ -64,13 +64,23 @@
                     tools:listitem="@layout/track_view"
                     android:visibility="visible"
                     />
+
         <ImageView
             android:id="@+id/image_error_search"
+            android:layout_width="@dimen/width_image_error"
+            android:layout_height="@dimen/height_image_error"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_top_image_error"
+            android:src="?attr/searchIcon"
+            android:visibility="gone" />
+        <ImageView
+            android:id="@+id/image_error_link"
             android:layout_width="@dimen/width_image_error"
             android:layout_height="@dimen/height_image_error"
             android:layout_marginTop="@dimen/margin_top_image_error"
             android:layout_gravity="center"
             android:visibility="gone"
+            android:src="?attr/errorIconTint"
             />
         <TextView
             android:id="@+id/text_error_search"
@@ -95,7 +105,5 @@
             android:layout_marginTop="@dimen/button_update_margin_top_search"
             android:visibility="gone"
             style="@style/button_update_search_style"/>
-
-
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

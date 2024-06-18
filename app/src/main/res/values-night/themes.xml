@@ -12,6 +12,7 @@
         <item name="colorTertiary">@color/white</item>
         <item name="colorOnTertiary">@color/dark_background</item>
         <item name="searchIcon">@drawable/dark_no_link</item>
+        <item name="errorIconTint">@drawable/dark_nothing_found</item>
 
     </style>
 </resources>
