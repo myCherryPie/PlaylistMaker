@@ -1,10 +1,12 @@
 package com.example.playlistmaker
 
+import android.app.PendingIntent.getActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -30,6 +32,21 @@ class SearchActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_search)
 
+        val tracks = mutableListOf<Track>()
+        val tracksAdapter = TrackAdapter(tracks)
+
+       val urlItunesApi = getString(R.string.base_url_itunes)
+
+        val retrofit = Retrofit.Builder()
+            .baseUrl(urlItunesApi)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+        val playListService = retrofit.create(ItunseApi::class.java)
+        val placeTextError: TextView = findViewById<TextView>(R.id.text_error_search)
+        val placeImageErorr = findViewById<ImageView>(R.id.image_error_search)
+        val editTextSearch = findViewById<EditText>(R.id.edit_text_search)
+        val btnUpdateSearch = findViewById<Button>(R.id.btn_update_search)
+
         if (savedInstanceState != null) {
             countValue = savedInstanceState.getString(SEARCH_AMOUNT, AMOUNT_DEF)
         }
@@ -39,24 +56,22 @@ class SearchActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        editTextSearch.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_DONE) {
-                search()
-                true
-            }
-            false
-                    }
 
         val arrowBackFromSearch = findViewById<ImageButton>(R.id.arrow_back_from_search)
         arrowBackFromSearch.setOnClickListener {
-
             finish()
         }
+
         val btnCrossClear = findViewById<ImageView>(R.id.clear_cross_search)
         btnCrossClear.setOnClickListener {
+            tracks.clear()
+            tracksAdapter.notifyDataSetChanged()
             editTextSearch.setText("")
             editTextSearch.clearFocus()
             editTextSearch.isCursorVisible = false
+            btnUpdateSearch.visibility = View.GONE
+            placeImageErorr.visibility = View.GONE
+            placeTextError.visibility = View.GONE
         }
 
         val textWatcherSearch = object : TextWatcher {
@@ -74,11 +89,69 @@ class SearchActivity : AppCompatActivity() {
 
             }
         }
-        editTextSearch.addTextChangedListener(textWatcherSearch)
+
 
         val recyclerViewTrack = findViewById<RecyclerView>(R.id.recyclerTracks)
         recyclerViewTrack.layoutManager = LinearLayoutManager(this)
         recyclerViewTrack.adapter = tracksAdapter
+
+         fun search() {
+            if (editTextSearch.text.isNotEmpty()) {
+                playListService.search(editTextSearch.text.toString()).enqueue(object : Callback<SearchResponse> {
+                    override fun onResponse(
+                        call: Call<SearchResponse>,
+                        response: Response<SearchResponse>
+                    ) {
+                        if (response.code() == 200) {
+                            tracks.clear()
+                            if (response.body()?.results?.isNotEmpty() == true) {
+                                tracks.addAll(response.body()?.results!!)
+                                tracksAdapter.notifyDataSetChanged()
+                                placeImageErorr.visibility = View.GONE
+                                placeTextError.visibility = View.GONE
+                                btnUpdateSearch.visibility = View.GONE
+                            }
+                            if (tracks.isEmpty()) {
+                                placeImageErorr.visibility = View.VISIBLE
+                                placeTextError.visibility = View.VISIBLE
+                                btnUpdateSearch.visibility = View.GONE
+                                placeImageErorr.setImageResource(R.drawable.light_nothing_found)
+                                placeTextError.setText(R.string.nothing_found)
+
+                            }
+                        } else {
+                            placeImageErorr.visibility = View.VISIBLE
+                            placeTextError.visibility = View.VISIBLE
+                            btnUpdateSearch.visibility = View.VISIBLE
+                            placeImageErorr.setImageResource(R.drawable.light_no_link)
+                            placeTextError.setText(R.string.no_link)
+                        }
+                    }
+
+                    override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+                        placeImageErorr.visibility = View.VISIBLE
+                        placeTextError.visibility = View.VISIBLE
+                        btnUpdateSearch.visibility = View.VISIBLE
+                        placeImageErorr.setImageResource(R.drawable.light_no_link)
+                        placeTextError.setText(R.string.no_link)
+                    }
+
+                })
+            }
+        }
+        editTextSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                search()
+                true
+            }
+            false
+        }
+
+        editTextSearch.addTextChangedListener(textWatcherSearch)
+
+        btnUpdateSearch.setOnClickListener {
+            search()
+        }
     }
 
     private var countValue: String = AMOUNT_DEF
@@ -95,62 +168,6 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    private val retrofit = Retrofit.Builder()
-        .baseUrl(getString(R.string.base_url_itunes))
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    private val playListService = retrofit.create(ItunseApi::class.java)
-    var tracks = mutableListOf<Track>()
-    val tracksAdapter = TrackAdapter(tracks)
-    var placeholderTextError: TextView = findViewById<TextView>(R.id.text_error_search)
-    var placeholderImageErorr: ImageView = findViewById<ImageView>(R.id.image_error_search)
-    val editTextSearch: EditText = findViewById<EditText>(R.id.edit_text_search)
-    private fun search() {
-
-        if (editTextSearch.text.isNotEmpty()) {
-            playListService.search(editTextSearch.text.toString()).enqueue(object : Callback<SearchResponse> {
-                override fun onResponse(
-                    call: Call<SearchResponse>,
-                    response: Response<SearchResponse>
-                ) {
-                    if (response.code() == 200) {
-                        tracks.clear()
-                        if (response.body()?.results?.isNotEmpty() == true) {
-                            tracks.addAll(response.body()?.results!!)
-                            tracksAdapter.notifyDataSetChanged()
-                        }
-                        if (tracks.isEmpty()) {
-                            showError(getString(R.string.nothing_found), "")
-                        } else {
-                            showError("", "")
-                        }
-                    } else {
-                        showError(getString(R.string.no_link), response.code().toString())
-                    }
-                }
-
-                override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                    TODO("Not yet implemented")
-                }
-                fun showError(text: String, additionalMessage: String) {
-                    if (text.isNotEmpty()) {
-                        placeholderImageErorr.visibility = View.VISIBLE
-                        placeholderTextError.visibility = View.VISIBLE
-                        tracks.clear()
-                        tracksAdapter.notifyDataSetChanged()
-                        placeholderImageErorr
-                        placeholderTextError.text = text
-                        if (additionalMessage.isNotEmpty()) {
-                            Toast.makeText(applicationContext, additionalMessage, Toast.LENGTH_LONG)
-                                .show()
-                        }
-                    } else {
-                        placeholderTextError.visibility = View.GONE
-                    }
-                }
-            })
-        }
-    }
 
     companion object {
         const val SEARCH_AMOUNT = "SEARCH_AMOUNT"
