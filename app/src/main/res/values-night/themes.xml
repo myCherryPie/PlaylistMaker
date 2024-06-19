@@ -5,9 +5,14 @@
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
         <item name="colorPrimary">@color/dark_background</item>
         <item name="colorSecondary">@color/dark_background</item>
+        <item name="colorButtonNormal">@color/white</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorOnSecondary">@color/white</item>
         <item name="editTextBackground">@color/white</item>
+        <item name="colorTertiary">@color/white</item>
+        <item name="colorOnTertiary">@color/dark_background</item>
+        <item name="searchIcon">@drawable/dark_no_link</item>
+        <item name="errorIconTint">@drawable/dark_nothing_found</item>
 
     </style>
 </resources>

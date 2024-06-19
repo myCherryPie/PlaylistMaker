@@ -26,7 +26,7 @@
     <dimen name="ll_top_box_height_search">48dp</dimen>
     <dimen name="text_edit_height_search">36dp</dimen>
     <dimen name="text_edit_radius_search">8dp</dimen>
-    <dimen name="text_edit_margin_start">6dp</dimen>
+    <dimen name="text_edit_margin_start">16dp</dimen>
     <dimen name="text_edit_margin_top">8dp</dimen>
     <dimen name="icon_clear_width_and_height_search">16dp</dimen>
     <dimen name="icon_clear_margin_end_search">12dp</dimen>
@@ -49,7 +49,17 @@
     <dimen name="artist_and_time_text_size_search">11sp</dimen>
     <dimen name="artist_and_time_layout_height_search">13dp</dimen>
     <dimen name="artist_and_time_layout_width_search">54dp</dimen>
-<dimen name="coroner_icon_track_search">2dp</dimen>
+    <dimen name="coroner_icon_track_search">2dp</dimen>
+    <dimen name="width_image_error">120dp</dimen>
+    <dimen name="height_image_error">120dp</dimen>
+    <dimen name="margin_top_image_error">100dp</dimen>
+    <dimen name="text_error_margin_top">16dp</dimen>
+    <dimen name="text_error_width">312dp</dimen>
+    <dimen name="text_error_margin_start">24dp</dimen>
+    <dimen name="text_error_text_size">19sp</dimen>
+    <dimen name="button_update_text_size_search">14sp</dimen>
+    <dimen name="button_update_margin_top_search">88dp</dimen>
+
     !!-------media--------------
 
 

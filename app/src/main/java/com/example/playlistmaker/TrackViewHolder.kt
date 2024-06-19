@@ -1,16 +1,15 @@
 package com.example.playlistmaker
 
-import android.content.res.Resources
-import android.content.res.Resources.getSystem
+import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import java.text.SimpleDateFormat
+import java.util.Locale
 
-val Int.dp: Int get() = (this / getSystem().displayMetrics.density).toInt()
-val cor = 2.dp
 class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val trackName: TextView = itemView.findViewById(R.id.trackName)
@@ -18,16 +17,25 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val trackTime: TextView = itemView.findViewById(R.id.trackTime)
     private val iconTrack: ImageView = itemView.findViewById(R.id.iconTrack)
 
-    fun bind(model: Track) {
+    fun bind(item: Track) {
 
-        trackName.text = model.trackName
-        artistName.text = model.artistName
-        trackTime.text = model.trackTime
+        val cornerImageTrack = 2f
+
+        trackName.text = item.trackName
+        artistName.text = item.artistName
+        trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(item.trackTimeMillis)
         Glide.with(itemView)
-            .load(model.artworkUrl100)
+            .load(item.artworkUrl100)
             .placeholder(R.drawable.placeholder)
             .fitCenter()
-            .transform(RoundedCorners(cor))
+            .transform(RoundedCorners(
+                TypedValue.applyDimension(
+                    TypedValue.COMPLEX_UNIT_DIP,
+                    cornerImageTrack,
+                    itemView.context.resources.displayMetrics
+                ).toInt()
+            )
+            )
             .into(iconTrack)
     }
 

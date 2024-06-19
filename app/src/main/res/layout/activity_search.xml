@@ -48,6 +48,8 @@
                 <EditText
                     android:id="@+id/edit_text_search"
                     style="@style/edit_text_LL_search_style"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
                    />
 
                 <ImageView style="@style/icon_clear_search_style"
@@ -59,7 +61,49 @@
                     android:id="@+id/recyclerTracks"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    tools:listitem="@layout/track_view" />
+                    tools:listitem="@layout/track_view"
+                    android:visibility="visible"
+                    />
 
+        <ImageView
+            android:id="@+id/image_error_search"
+            android:layout_width="@dimen/width_image_error"
+            android:layout_height="@dimen/height_image_error"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_top_image_error"
+            android:src="?attr/searchIcon"
+            android:visibility="gone" />
+        <ImageView
+            android:id="@+id/image_error_link"
+            android:layout_width="@dimen/width_image_error"
+            android:layout_height="@dimen/height_image_error"
+            android:layout_marginTop="@dimen/margin_top_image_error"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:src="?attr/errorIconTint"
+            />
+        <TextView
+            android:id="@+id/text_error_search"
+            android:layout_width="@dimen/text_error_width"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_error_margin_top"
+            android:layout_marginStart="@dimen/text_error_margin_start"
+            android:layout_marginEnd="@dimen/text_error_margin_start"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:visibility="gone"
+            style="@style/text_error_search_style"
+            />
+        <Button
+            android:id="@+id/btn_update_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/update"
+            android:textAllCaps="false"
+            android:layout_gravity="center"
+            android:textSize="@dimen/button_update_text_size_search"
+            android:layout_marginTop="@dimen/button_update_margin_top_search"
+            android:visibility="gone"
+            style="@style/button_update_search_style"/>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
