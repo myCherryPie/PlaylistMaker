@@ -17,9 +17,7 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val trackTime: TextView = itemView.findViewById(R.id.trackTime)
     private val iconTrack: ImageView = itemView.findViewById(R.id.iconTrack)
 
-    fun bind(item: Track) {
-
-        val cornerImageTrack = 2f
+    fun bind(item: TrackModel) {
 
         trackName.text = item.trackName
         artistName.text = item.artistName
@@ -31,7 +29,7 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             .transform(RoundedCorners(
                 TypedValue.applyDimension(
                     TypedValue.COMPLEX_UNIT_DIP,
-                    cornerImageTrack,
+                    (R.dimen.corner_icon_track_search).toFloat(),
                     itemView.context.resources.displayMetrics
                 ).toInt()
             )

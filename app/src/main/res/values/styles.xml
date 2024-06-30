@@ -148,7 +148,7 @@
             </style>
 
     <style name="button_update_search_style">
-        <item name="cornerRadius">54dp</item>
+        <item name="cornerRadius">@dimen/button_update_corner_radius_search</item>
         <item name="android:backgroundTint">?attr/colorTertiary</item>
         <item name="fontFamily">@font/ys_text_medium</item>
         <item name="android:textColor">?attr/colorOnTertiary</item>
@@ -160,6 +160,13 @@
         <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="fontFamily">@font/ys_text_medium</item>
 
+    </style>
+
+    <style name="text_your_history_search_style">
+        <item name="android:textSize">@dimen/text_error_text_size</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="fontFamily">@font/ys_text_medium</item>
+<item name="android:textAlignment"></item>
     </style>
     !!------------media---------------
 

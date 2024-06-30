@@ -9,7 +9,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main) //связь ф-ции с мейн
+        setContentView(R.layout.activity_main)
+
 
         val btnSearch = findViewById<Button>(R.id.btn_search)
         btnSearch.setOnClickListener {

@@ -37,7 +37,7 @@
                 android:layout_weight="9"
                 android:layout_gravity="center" />
 
-            <Switch
+            <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switch_dark_theme"
                 android:layout_width="32dp"
                 android:layout_height="16dp"

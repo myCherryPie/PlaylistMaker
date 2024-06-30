@@ -30,10 +30,10 @@ class SearchActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_search)
 
-        val tracks = mutableListOf<Track>()
+        val tracks = mutableListOf<TrackModel>()
         val tracksAdapter = TrackAdapter(tracks)
 
-       val urlItunesApi = getString(R.string.base_url_itunes)
+        val urlItunesApi = getString(R.string.base_url_itunes)
 
         val retrofit = Retrofit.Builder()
             .baseUrl(urlItunesApi)
@@ -45,6 +45,10 @@ class SearchActivity : AppCompatActivity() {
         val placeImgSearchErr = findViewById<ImageView>(R.id.image_error_search)
         val editTextSearch = findViewById<EditText>(R.id.edit_text_search)
         val btnUpdateSearch = findViewById<Button>(R.id.btn_update_search)
+        val sharedPrefs = getSharedPreferences(
+            App.PRACTICUM_EXAMPLE_PREFERENCES,
+            MODE_PRIVATE
+        )
 
         if (savedInstanceState != null) {
             countValue = savedInstanceState.getString(SEARCH_AMOUNT, AMOUNT_DEF)
@@ -68,10 +72,10 @@ class SearchActivity : AppCompatActivity() {
             editTextSearch.setText("")
             editTextSearch.clearFocus()
             editTextSearch.isCursorVisible = false
-            btnUpdateSearch.visibility = View.GONE
-            placeImgSearchErr.visibility = View.GONE
-            placeImgLinkErr.visibility = View.GONE
-            placeTextError.visibility = View.GONE
+            btnUpdateSearch.gone()
+            placeImgSearchErr.gone()
+            placeImgLinkErr.gone()
+            placeTextError.gone()
         }
 
         val textWatcherSearch = object : TextWatcher {
@@ -95,7 +99,7 @@ class SearchActivity : AppCompatActivity() {
         recyclerViewTrack.adapter = tracksAdapter
 
 
-         fun findByInput() {
+        fun findByInput() {
             if (editTextSearch.text.isNotEmpty()) {
                 playListService.search(editTextSearch.text.toString()).enqueue(object : Callback<SearchResponse> {
                     override fun onResponse(
@@ -107,37 +111,37 @@ class SearchActivity : AppCompatActivity() {
                             if (response.body()?.results?.isNotEmpty() == true) {
                                 tracks.addAll(response.body()?.results!!)
                                 tracksAdapter.notifyDataSetChanged()
-                                placeImgSearchErr.visibility = View.GONE
-//                                placeImgLinkErr.visibility = View.GONE
-                                placeTextError.visibility = View.GONE
-                                btnUpdateSearch.visibility = View.GONE
+                                placeImgSearchErr.gone()
+                                placeTextError.gone()
+                                btnUpdateSearch.gone()
                             }
                             if (tracks.isEmpty()) {
-                                recyclerViewTrack.visibility = View.GONE
-                                placeImgSearchErr.visibility = View.VISIBLE
-                                placeTextError.visibility = View.VISIBLE
-                                btnUpdateSearch.visibility = View.GONE
+                                recyclerViewTrack.gone()
+                                placeImgSearchErr.gone()
+                                placeTextError.gone()
+                                btnUpdateSearch.gone()
                                 placeTextError.setText(R.string.nothing_found)
                             }
                         } else {
-                            recyclerViewTrack.visibility = View.GONE
-                            placeImgLinkErr.visibility = View.VISIBLE
-                            placeTextError.visibility = View.VISIBLE
+
+                            recyclerViewTrack.gone()
+                            placeImgLinkErr.show()
+                            placeTextError.show()
                             placeTextError.setText(response.code())
                         }
                     }
 
                     override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                        recyclerViewTrack.visibility = View.GONE
-                        placeImgLinkErr.visibility = View.VISIBLE
-                        placeTextError.visibility = View.VISIBLE
-                        btnUpdateSearch.visibility = View.VISIBLE
+                        recyclerViewTrack.gone()
+                        placeImgLinkErr.show()
+                        placeTextError.show()
+                        btnUpdateSearch.show()
                         placeTextError.setText(R.string.no_link)
                         btnUpdateSearch.setOnClickListener {
-                            recyclerViewTrack.visibility = View.VISIBLE
-                            placeImgLinkErr.visibility = View.GONE
-                            placeTextError.visibility = View.GONE
-                            btnUpdateSearch.visibility = View.GONE
+                            recyclerViewTrack.show()
+                            placeImgLinkErr.gone()
+                            placeTextError.gone()
+                            btnUpdateSearch.gone()
                             findByInput()
                         }
                     }
@@ -172,10 +176,14 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-
+    fun View.show(){
+        visibility = View.VISIBLE
+    }
+    fun View.gone(){
+        visibility = View.GONE
+    }
     companion object {
         const val SEARCH_AMOUNT = "SEARCH_AMOUNT"
         const val AMOUNT_DEF = ""
     }
 }
-

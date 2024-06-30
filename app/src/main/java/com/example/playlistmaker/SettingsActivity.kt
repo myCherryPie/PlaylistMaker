@@ -5,13 +5,16 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Switch
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -21,11 +24,22 @@ class SettingsActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+
+
         val arrowBackFromSettings = findViewById<ImageButton>(R.id.arrow_back_from_settings)
 
         arrowBackFromSettings.setOnClickListener {
           finish()
         }
+        val themeSwitcher = findViewById<SwitchMaterial>(R.id.switch_dark_theme)
+
+        themeSwitcher.isChecked = (applicationContext as App).darkTheme
+
+        themeSwitcher.setOnClickListener{
+            (applicationContext as App).saveSwitchDarkTheme((it as Switch).isChecked)
+        }
+
         val btnShare = findViewById<LinearLayout>(R.id.btn_share)
         btnShare.setOnClickListener {
             val shareIntent = Intent()
