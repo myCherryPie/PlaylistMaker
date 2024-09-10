@@ -9,6 +9,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -22,33 +23,40 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), ClickListener {
+
+    private lateinit var  tracksHistory : ArrayList<Track>
+    private lateinit var searchH : SearchHistory
+    private lateinit var tracksAdapterHistory : TrackAdapter
+    private lateinit var tracks : ArrayList<Track>
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_search)
 
-        val tracks = mutableListOf<TrackModel>()
-        val tracksAdapter = TrackAdapter(tracks)
+        searchH = SearchHistory(applicationContext as AppSP)
+        tracks = mutableListOf<Track>() as ArrayList<Track>
+        tracksHistory = searchH.getTracks()
+        val tracksAdapter = TrackAdapter(tracks,this)
+        tracksAdapterHistory = TrackAdapter(tracksHistory,this)
 
         val urlItunesApi = getString(R.string.base_url_itunes)
-
         val retrofit = Retrofit.Builder()
             .baseUrl(urlItunesApi)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         val playListService = retrofit.create(ItunseApi::class.java)
         val placeImgLinkErr = findViewById<ImageView>(R.id.image_error_link)
-        val placeTextError: TextView = findViewById(R.id.text_error_search)
+        val placeTextError = findViewById<TextView>(R.id.text_error_search)
         val placeImgSearchErr = findViewById<ImageView>(R.id.image_error_search)
         val editTextSearch = findViewById<EditText>(R.id.edit_text_search)
         val btnUpdateSearch = findViewById<Button>(R.id.btn_update_search)
-        val sharedPrefs = getSharedPreferences(
-            App.PRACTICUM_EXAMPLE_PREFERENCES,
-            MODE_PRIVATE
-        )
+        val btnInputClear = findViewById<ImageView>(R.id.clear_cross_search)
+        val arrowBackFromSearch = findViewById<ImageButton>(R.id.arrow_back_from_search)
+        val btnClearHistory = findViewById<Button>(R.id.btn_clear_history_search)
+        val layoutOfHistory = findViewById<LinearLayout>(R.id.layout_history_search)!!
+
 
         if (savedInstanceState != null) {
             countValue = savedInstanceState.getString(SEARCH_AMOUNT, AMOUNT_DEF)
@@ -60,37 +68,55 @@ class SearchActivity : AppCompatActivity() {
             insets
         }
 
-        val arrowBackFromSearch = findViewById<ImageButton>(R.id.arrow_back_from_search)
         arrowBackFromSearch.setOnClickListener {
             finish()
         }
 
-        val btnCrossClear = findViewById<ImageView>(R.id.clear_cross_search)
-        btnCrossClear.setOnClickListener {
+        btnInputClear.setOnClickListener {
             tracks.clear()
             tracksAdapter.notifyDataSetChanged()
             editTextSearch.setText("")
             editTextSearch.clearFocus()
             editTextSearch.isCursorVisible = false
-            btnUpdateSearch.gone()
-            placeImgSearchErr.gone()
-            placeImgLinkErr.gone()
-            placeTextError.gone()
+            btnUpdateSearch.visibility = View.GONE
+            placeImgSearchErr.visibility = View.GONE
+            placeImgLinkErr.visibility = View.GONE
+            placeTextError.visibility = View.GONE
+        }
+        fun updateRecyclerHistory(){
+            layoutOfHistory.visibility = View.VISIBLE
+            tracksHistory = searchH.getTracks()
+            tracksAdapterHistory.notifyDataSetChanged()
+        }
+        fun hideLayoutHistory(){
+            tracks.clear()
+            layoutOfHistory.visibility = View.GONE
+        }
+        btnClearHistory.setOnClickListener {
+            hideLayoutHistory()
+            searchH.cleanList()
+        }
+
+        editTextSearch.setOnFocusChangeListener { _, hasFocus ->
+                if(hasFocus && editTextSearch.text.isEmpty() && tracksHistory.isNotEmpty()) {
+                    updateRecyclerHistory()
+                } else hideLayoutHistory()
         }
 
         val textWatcherSearch = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 editTextSearch.isCursorVisible = true
-
             }
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                btnCrossClear.visibility = visibilityClearButton(s)
+                btnInputClear.visibility = visibilityClearButton(s)
+                editTextSearch.isCursorVisible = true
                 countValue = editTextSearch.toString()
+                layoutOfHistory.visibility =
+                    if(editTextSearch.hasFocus()
+                        && s?.isEmpty() == true
+                        && tracks.isNotEmpty()) View.VISIBLE else View.GONE
             }
-
             override fun afterTextChanged(s: Editable?) {
-
             }
         }
 
@@ -98,8 +124,11 @@ class SearchActivity : AppCompatActivity() {
         recyclerViewTrack.layoutManager = LinearLayoutManager(this)
         recyclerViewTrack.adapter = tracksAdapter
 
+        val recyclerViewHistory = findViewById<RecyclerView>(R.id.recycler_search_history)
+        recyclerViewHistory.layoutManager = LinearLayoutManager(this)
+        recyclerViewHistory.adapter = tracksAdapterHistory
 
-        fun findByInput() {
+         fun findByInput() {
             if (editTextSearch.text.isNotEmpty()) {
                 playListService.search(editTextSearch.text.toString()).enqueue(object : Callback<SearchResponse> {
                     override fun onResponse(
@@ -111,37 +140,36 @@ class SearchActivity : AppCompatActivity() {
                             if (response.body()?.results?.isNotEmpty() == true) {
                                 tracks.addAll(response.body()?.results!!)
                                 tracksAdapter.notifyDataSetChanged()
-                                placeImgSearchErr.gone()
-                                placeTextError.gone()
-                                btnUpdateSearch.gone()
+                                placeImgSearchErr.visibility = View.GONE
+                                placeTextError.visibility = View.GONE
+                                btnUpdateSearch.visibility = View.GONE
                             }
                             if (tracks.isEmpty()) {
-                                recyclerViewTrack.gone()
-                                placeImgSearchErr.gone()
-                                placeTextError.gone()
-                                btnUpdateSearch.gone()
+                                recyclerViewTrack.visibility = View.GONE
+                                placeImgSearchErr.visibility = View.VISIBLE
+                                placeTextError.visibility = View.VISIBLE
+                                btnUpdateSearch.visibility = View.GONE
                                 placeTextError.setText(R.string.nothing_found)
                             }
                         } else {
-
-                            recyclerViewTrack.gone()
-                            placeImgLinkErr.show()
-                            placeTextError.show()
+                            recyclerViewTrack.visibility = View.GONE
+                            placeImgLinkErr.visibility = View.VISIBLE
+                            placeTextError.visibility = View.VISIBLE
                             placeTextError.setText(response.code())
                         }
                     }
 
                     override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                        recyclerViewTrack.gone()
-                        placeImgLinkErr.show()
-                        placeTextError.show()
-                        btnUpdateSearch.show()
+                        recyclerViewTrack.visibility = View.GONE
+                        placeImgLinkErr.visibility = View.VISIBLE
+                        placeTextError.visibility = View.VISIBLE
+                        btnUpdateSearch.visibility = View.VISIBLE
                         placeTextError.setText(R.string.no_link)
                         btnUpdateSearch.setOnClickListener {
-                            recyclerViewTrack.show()
-                            placeImgLinkErr.gone()
-                            placeTextError.gone()
-                            btnUpdateSearch.gone()
+                            recyclerViewTrack.visibility = View.VISIBLE
+                            placeImgLinkErr.visibility = View.GONE
+                            placeTextError.visibility = View.GONE
+                            btnUpdateSearch.visibility = View.GONE
                             findByInput()
                         }
                     }
@@ -152,14 +180,10 @@ class SearchActivity : AppCompatActivity() {
         editTextSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 findByInput()
-                true
             }
             false
         }
-
         editTextSearch.addTextChangedListener(textWatcherSearch)
-
-
     }
 
     private var countValue: String = AMOUNT_DEF
@@ -176,14 +200,14 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-    fun View.show(){
-        visibility = View.VISIBLE
+    override fun onClick(track: Track) {
+        searchH.addTrackToList(track)
     }
-    fun View.gone(){
-        visibility = View.GONE
-    }
+
+
     companion object {
         const val SEARCH_AMOUNT = "SEARCH_AMOUNT"
         const val AMOUNT_DEF = ""
     }
 }
+

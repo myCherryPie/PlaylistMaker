@@ -11,6 +11,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val appSharedPreferences = applicationContext as AppSP
+        appSharedPreferences.switchTheme(appSharedPreferences.getSettingTheme())
 
         val btnSearch = findViewById<Button>(R.id.btn_search)
         btnSearch.setOnClickListener {
