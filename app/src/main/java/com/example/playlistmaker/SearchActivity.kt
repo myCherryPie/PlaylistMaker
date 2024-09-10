@@ -1,10 +1,12 @@
 package com.example.playlistmaker
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -120,6 +122,8 @@ class SearchActivity : AppCompatActivity(), ClickListener {
             }
         }
 
+
+
         val recyclerViewTrack = findViewById<RecyclerView>(R.id.recyclerTracks)
         recyclerViewTrack.layoutManager = LinearLayoutManager(this)
         recyclerViewTrack.adapter = tracksAdapter
@@ -203,7 +207,6 @@ class SearchActivity : AppCompatActivity(), ClickListener {
     override fun onClick(track: Track) {
         searchH.addTrackToList(track)
     }
-
 
     companion object {
         const val SEARCH_AMOUNT = "SEARCH_AMOUNT"

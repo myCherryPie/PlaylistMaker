@@ -38,6 +38,6 @@ class SearchHistory (private val sharedPrefs : AppSP) {
     }
 
     companion object {
-        const val MAX_SIZE_LIST = 9
+        const val MAX_SIZE_LIST = 10
     }
 }
