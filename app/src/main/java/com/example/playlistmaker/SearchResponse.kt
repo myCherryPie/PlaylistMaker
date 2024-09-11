@@ -1,5 +1,5 @@
 package com.example.playlistmaker
 
 class SearchResponse (
-   var results: List<TrackModel>
+   var results: List<Track>
 )
