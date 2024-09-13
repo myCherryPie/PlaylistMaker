@@ -30,7 +30,7 @@ class SettingsActivity : AppCompatActivity() {
           finish()
         }
 
-        val themeSwitcher = findViewById<SwitchCompat>(R.id.switch_dark_theme)
+        val themeSwitcher = findViewById<SwitchMaterial>(R.id.switch_dark_theme)
 
         themeSwitcher.setChecked((applicationContext as AppSP).getSettingTheme())
 

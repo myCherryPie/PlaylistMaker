@@ -1,5 +1,6 @@
 package com.example.playlistmaker
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.text.Editable
@@ -108,6 +109,7 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         val textWatcherSearch = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 editTextSearch.isCursorVisible = true
+
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 btnInputClear.visibility = visibilityClearButton(s)
@@ -117,6 +119,8 @@ class SearchActivity : AppCompatActivity(), ClickListener {
                     if(editTextSearch.hasFocus()
                         && s?.isEmpty() == true
                         && tracks.isNotEmpty()) View.VISIBLE else View.GONE
+                        //TODO hide keyboard
+
             }
             override fun afterTextChanged(s: Editable?) {
             }
@@ -207,7 +211,10 @@ class SearchActivity : AppCompatActivity(), ClickListener {
     override fun onClick(track: Track) {
         searchH.addTrackToList(track)
     }
-
+    fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
     companion object {
         const val SEARCH_AMOUNT = "SEARCH_AMOUNT"
         const val AMOUNT_DEF = ""

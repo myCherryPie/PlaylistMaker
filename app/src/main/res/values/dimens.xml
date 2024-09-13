@@ -48,7 +48,8 @@
     <dimen name="ic_cycle_layout_margin_search">6dp</dimen>
     <dimen name="artist_and_time_text_size_search">12sp</dimen>
     <dimen name="artist_and_time_layout_height_search">12dp</dimen>
-    <dimen name="artist_and_time_layout_width_search">54dp</dimen>
+    <dimen name="artist_and_time_layout_width_search">104dp</dimen>
+    <dimen name="time_layout_width_search">44dp</dimen>
     <dimen name="corner_icon_track_search">2</dimen>
     <dimen name="width_image_error">120dp</dimen>
     <dimen name="height_image_error">120dp</dimen>

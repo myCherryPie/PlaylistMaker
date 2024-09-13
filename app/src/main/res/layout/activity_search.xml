@@ -51,12 +51,15 @@
                     style="@style/edit_text_LL_search_style"
                     android:imeOptions="actionDone"
                     android:singleLine="true"
+                    android:cursorVisible="true"
                      />
 
                 <ImageView style="@style/icon_clear_search_style"
                     android:id="@+id/clear_cross_search"
                      />
             </LinearLayout>
+
+
         </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerTracks"
@@ -108,18 +111,24 @@
             style="@style/button_update_search_style"/>
     </LinearLayout>
     <LinearLayout
-        android:id="@+id/layout_history_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:visibility="gone"
-        android:layout_marginTop="@dimen/layout_marginTop_layout_history_search">
+        android:visibility="visible"
+        android:layout_marginTop="@dimen/layout_marginTop_layout_history_search"
+        >
+    <LinearLayout
+        android:id="@+id/layout_history_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        >
 
         <TextView
             android:id="@+id/text_your_history_search"
             android:layout_width="match_parent"
             android:layout_height="@dimen/text_your_history_height_search"
-            android:layout_marginTop="@dimen/text_your_history_margin_top_search"
             android:text="@string/your_history"
             android:textAlignment="center"
             android:visibility="visible"
@@ -129,7 +138,8 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_search_history"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:clickable="true"
             android:scrollbars="vertical"
             android:visibility="visible"
@@ -145,5 +155,6 @@
             android:maxLines="1"
             style="@style/button_update_search_style"
             />
+    </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
