@@ -42,23 +42,26 @@
                 <TextView
                     android:id="@+id/artistName"
                     style="@style/text_artist_track_search_style"
-                    android:layout_width="@dimen/artist_and_time_layout_width_search"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
                     android:ellipsize="end"
-                    android:maxLines="1"/>
+                    android:maxLines="1"
+
+                    />
 
                 <ImageView
-
                     android:layout_height="@dimen/ic_cycle_layout_height_search"
                     android:layout_width="wrap_content"
                     android:layout_margin="@dimen/ic_cycle_layout_margin_search"
                     android:gravity="center"
                     android:src="@drawable/ellipse" />
-
                 <TextView
                     android:id="@+id/trackTime"
-                    android:layout_width="64dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     style="@style/track_time_text_search_style"
-
+                    android:maxLines="1"
                     />
             </LinearLayout>
         </LinearLayout>

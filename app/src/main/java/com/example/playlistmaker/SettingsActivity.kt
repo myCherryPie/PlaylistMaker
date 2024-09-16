@@ -5,11 +5,14 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.LinearLayout
+import android.widget.Switch
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +29,17 @@ class SettingsActivity : AppCompatActivity() {
         arrowBackFromSettings.setOnClickListener {
           finish()
         }
+
+        val themeSwitcher = findViewById<SwitchMaterial>(R.id.switch_dark_theme)
+
+        themeSwitcher.setChecked((applicationContext as AppSP).getSettingTheme())
+
+        themeSwitcher.setOnCheckedChangeListener { _, checked ->
+            (applicationContext as AppSP).switchTheme(checked)
+            (applicationContext as AppSP). saveSettingTheme(checked)
+
+        }
+
         val btnShare = findViewById<LinearLayout>(R.id.btn_share)
         btnShare.setOnClickListener {
             val shareIntent = Intent()

@@ -17,7 +17,7 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val trackTime: TextView = itemView.findViewById(R.id.trackTime)
     private val iconTrack: ImageView = itemView.findViewById(R.id.iconTrack)
 
-    fun bind(item: Track) {
+    fun bind(item: Track, listener: ClickListener) {
 
         val cornerImageTrack = 2f
 
@@ -37,6 +37,10 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             )
             )
             .into(iconTrack)
+
+        itemView.setOnClickListener {
+            listener.onClick(item)
+        }
     }
 
 }

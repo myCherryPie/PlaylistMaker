@@ -124,8 +124,6 @@
                 <item name="fontFamily">@font/ys_text_regular</item>
             </style>
     <style name="text_artist_track_search_style">
-        <item name="android:layout_width">@dimen/artist_and_time_layout_width_search</item>
-        <item name="android:layout_height">@dimen/artist_and_time_layout_height_search</item>
         <item name="android:orientation">horizontal</item>
         <item name="android:layout_marginStart">@dimen/text_name_and_artist_track_layout_margin_start_search</item>
         <item name="android:textSize">@dimen/artist_and_time_text_size_search</item>
@@ -148,7 +146,7 @@
             </style>
 
     <style name="button_update_search_style">
-        <item name="cornerRadius">54dp</item>
+        <item name="cornerRadius">@dimen/button_update_corner_radius_search</item>
         <item name="android:backgroundTint">?attr/colorTertiary</item>
         <item name="fontFamily">@font/ys_text_medium</item>
         <item name="android:textColor">?attr/colorOnTertiary</item>
@@ -160,6 +158,13 @@
         <item name="android:textColor">?attr/colorOnSecondary</item>
         <item name="fontFamily">@font/ys_text_medium</item>
 
+    </style>
+
+    <style name="text_your_history_search_style">
+        <item name="android:textSize">@dimen/text_error_text_size</item>
+        <item name="android:textColor">?attr/colorOnSecondary</item>
+        <item name="fontFamily">@font/ys_text_medium</item>
+<item name="android:textAlignment"></item>
     </style>
     !!------------media---------------
 
