@@ -1,7 +1,9 @@
 package com.example.playlistmaker
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 
 class TrackAdapter( private val tracks: List<Track>,private val listener: ClickListener) : RecyclerView.Adapter<TrackViewHolder>() {
@@ -19,6 +21,7 @@ class TrackAdapter( private val tracks: List<Track>,private val listener: ClickL
         holder.bind(tracks[position], listener)
         holder.itemView.setOnClickListener {
             listener.onClick(tracks[position])
+
         }
     }
 }

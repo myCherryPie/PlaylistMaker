@@ -2,6 +2,7 @@ package com.example.playlistmaker
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -16,6 +17,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -101,9 +103,9 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         }
 
         editTextSearch.setOnFocusChangeListener { _, hasFocus ->
-                if(hasFocus && editTextSearch.text.isEmpty() && tracksHistory.isNotEmpty()) {
-                    updateRecyclerHistory()
-                } else hideLayoutHistory()
+            if(hasFocus && editTextSearch.text.isEmpty() && tracksHistory.isNotEmpty()) {
+                updateRecyclerHistory()
+            } else hideLayoutHistory()
         }
 
         val textWatcherSearch = object : TextWatcher {
@@ -119,7 +121,7 @@ class SearchActivity : AppCompatActivity(), ClickListener {
                     if(editTextSearch.hasFocus()
                         && s?.isEmpty() == true
                         && tracks.isNotEmpty()) View.VISIBLE else View.GONE
-                        //TODO hide keyboard
+                //TODO hide keyboard
 
             }
             override fun afterTextChanged(s: Editable?) {
@@ -136,7 +138,7 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         recyclerViewHistory.layoutManager = LinearLayoutManager(this)
         recyclerViewHistory.adapter = tracksAdapterHistory
 
-         fun findByInput() {
+        fun findByInput() {
             if (editTextSearch.text.isNotEmpty()) {
                 playListService.search(editTextSearch.text.toString()).enqueue(object : Callback<SearchResponse> {
                     override fun onResponse(
@@ -210,14 +212,12 @@ class SearchActivity : AppCompatActivity(), ClickListener {
 
     override fun onClick(track: Track) {
         searchH.addTrackToList(track)
-    }
-    fun Context.hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
-        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+        val i = Intent(this,PlayerActivity::class.java)
+        startActivity(i)
     }
     companion object {
         const val SEARCH_AMOUNT = "SEARCH_AMOUNT"
         const val AMOUNT_DEF = ""
+        const val TRACK = "track"
     }
 }
-

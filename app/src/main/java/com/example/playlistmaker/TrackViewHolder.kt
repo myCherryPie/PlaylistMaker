@@ -1,5 +1,6 @@
 package com.example.playlistmaker
 
+import android.content.Intent
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
@@ -40,6 +41,7 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         itemView.setOnClickListener {
             listener.onClick(item)
+
         }
     }
 

@@ -25,4 +25,15 @@
     <string name="update">Обновить</string>
     <string name="your_history">Вы искали</string>
     <string name="clear_history">Очистить историю</string>
+    <string name="back">back</string>
+    <string name="img_album">imgAlbum</string>
+    <string name="btnPutToPlaylist">PutToPlaylist</string>
+    <string name="likeBtn">like</string>
+    <string name="playBtn">play</string>
+    <string name="trackTime">Длительность трека</string>
+    <string name="countryTrack">Страна</string>
+    <string name="textTime">Длительность</string>
+    <string name="textAlbum">Альбом</string>
+    <string name="textYearTrack">Год</string>
+    <string name="textGenreTrack">Жанр</string>
 </resources>
