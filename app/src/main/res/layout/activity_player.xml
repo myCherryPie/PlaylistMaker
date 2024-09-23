@@ -61,7 +61,7 @@
         />
 
     <ImageView
-        android:id="@+id/img_album"
+        android:id="@+id/iconTrack"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
@@ -85,7 +85,7 @@
         />
 
     <TextView
-        android:id="@+id/trackNameView"
+        android:id="@+id/trackName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/trackName"
@@ -95,14 +95,14 @@
         />
 
     <TextView
-        android:id="@+id/artistNameView"
+        android:id="@+id/artistName"
         style="@style/artist_name_player_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="@string/artistName"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
-        app:layout_constraintTop_toBottomOf="@id/trackNameView"
+        app:layout_constraintTop_toBottomOf="@id/trackName"
         app:layout_constraintTag="@string/artistName"
         />
 
@@ -226,7 +226,7 @@
         />
 
     <TextView
-        android:id="@+id/timeTrack"
+        android:id="@+id/trackTime"
         app:layout_constraintVertical_chainStyle="spread"
         style="@style/properties_track_player_style"
         android:layout_width="wrap_content"
@@ -243,7 +243,7 @@
         android:layout_height="wrap_content"
         android:text="@string/textAlbum"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
-        app:layout_constraintTop_toBottomOf="@id/timeTrack"
+        app:layout_constraintTop_toBottomOf="@id/trackTime"
         />
 
     <TextView

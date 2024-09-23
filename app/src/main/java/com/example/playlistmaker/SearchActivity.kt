@@ -121,14 +121,10 @@ class SearchActivity : AppCompatActivity(), ClickListener {
                     if(editTextSearch.hasFocus()
                         && s?.isEmpty() == true
                         && tracks.isNotEmpty()) View.VISIBLE else View.GONE
-                //TODO hide keyboard
-
             }
             override fun afterTextChanged(s: Editable?) {
             }
         }
-
-
 
         val recyclerViewTrack = findViewById<RecyclerView>(R.id.recyclerTracks)
         recyclerViewTrack.layoutManager = LinearLayoutManager(this)
@@ -137,6 +133,7 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         val recyclerViewHistory = findViewById<RecyclerView>(R.id.recycler_search_history)
         recyclerViewHistory.layoutManager = LinearLayoutManager(this)
         recyclerViewHistory.adapter = tracksAdapterHistory
+
 
         fun findByInput() {
             if (editTextSearch.text.isNotEmpty()) {
@@ -212,12 +209,12 @@ class SearchActivity : AppCompatActivity(), ClickListener {
 
     override fun onClick(track: Track) {
         searchH.addTrackToList(track)
-        val i = Intent(this,PlayerActivity::class.java)
-        startActivity(i)
+
     }
     companion object {
         const val SEARCH_AMOUNT = "SEARCH_AMOUNT"
         const val AMOUNT_DEF = ""
         const val TRACK = "track"
+
     }
 }
