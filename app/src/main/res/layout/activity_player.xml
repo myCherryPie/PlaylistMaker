@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="32dp"
+        app:layout_constraintGuide_begin="16dp"
         />
 
     <androidx.constraintlayout.widget.Guideline
@@ -20,7 +20,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="32dp"
+        app:layout_constraintGuide_end="16dp"
+        />
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/start_guideline_for_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="24dp"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/end_guideline_for_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="24dp"
         />
 
     <androidx.constraintlayout.widget.Guideline
@@ -111,16 +126,16 @@
 
     <ImageButton
         android:id="@+id/btn_put_to_playlist"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
-        android:src="?attr/icon"
         android:background="?attr/colorSecondary"
-        app:layout_constraintStart_toStartOf="@id/start_guideline"
-        app:layout_constraintTop_toBottomOf="@id/top_btns_barrier"
         android:contentDescription="@string/btnPutToPlaylist"
+        android:src="?attr/icon"
+        app:layout_constraintBottom_toTopOf="@+id/trackClock"
+        app:layout_constraintStart_toStartOf="@id/start_guideline_for_btn"
         app:layout_constraintTag="@string/btnPutToPlaylist"
-        />
+        app:layout_constraintTop_toBottomOf="@id/top_btns_barrier" />
 
     <ImageButton
         android:id="@+id/btn_play"
@@ -130,6 +145,7 @@
         android:contentDescription="@string/playBtn"
         android:src="@drawable/playbtn"
         android:layout_marginTop="24dp"
+        app:layout_constraintBottom_toTopOf="@+id/trackClock"
         app:layout_constraintEnd_toStartOf="@+id/btn_like"
         app:layout_constraintStart_toEndOf="@id/btn_put_to_playlist"
         app:layout_constraintTag="@string/playBtn"
@@ -154,12 +170,13 @@
 
     <ImageButton
         android:id="@+id/btn_like"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="28dp"
         android:src="?attr/android:drawable"
         android:background="?attr/colorSecondary"
-        app:layout_constraintEnd_toStartOf="@id/end_guideline"
+        app:layout_constraintBottom_toTopOf="@+id/trackClock"
+        app:layout_constraintEnd_toStartOf="@id/end_guideline_for_btn"
         app:layout_constraintTop_toBottomOf="@id/top_btns_barrier"
         android:contentDescription="@string/likeBtn"
         app:layout_constraintTag="@string/likeBtn"
