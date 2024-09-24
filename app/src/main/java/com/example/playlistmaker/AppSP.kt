@@ -36,6 +36,7 @@ class AppSP: Application() {
     fun getSettingTheme(): Boolean {
         return sharedPrefs.getBoolean(SETTINGS_KEY,false)
     }
+
     fun saveHistoryOfSearch(tracks : ArrayList<Track>) {
         val json = Gson().toJson(tracks)
         sharedPrefs.edit()

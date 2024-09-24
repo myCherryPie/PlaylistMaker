@@ -3,25 +3,20 @@ package com.example.playlistmaker
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
-import android.view.View.inflate
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.example.playlistmaker.AppSP.Companion.TRACK
+import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class PlayerActivity(private val track: Track) : AppCompatActivity(){
-
+class PlayerActivity() : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
-
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_player)
@@ -30,7 +25,10 @@ class PlayerActivity(private val track: Track) : AppCompatActivity(){
         arrowBackFromPlayer.setOnClickListener {
             finish()
         }
-
+        val track = Gson().fromJson(
+            intent.getStringExtra(TRACK),
+            Track::class.java
+        )
         inflatePlayer(track)
 
     }
@@ -39,6 +37,7 @@ class PlayerActivity(private val track: Track) : AppCompatActivity(){
             val artistName: TextView = findViewById(R.id.artistName)
             val trackTime: TextView = findViewById(R.id.trackTime)
             val iconTrack: ImageView = findViewById(R.id.iconTrack)
+            val trackClock:TextView = findViewById(R.id.trackClock)
             val collectionName: TextView = findViewById(R.id.collectionName)
             val releaseDate: TextView = findViewById(R.id.releaseDate)
             val primaryGenreName: TextView = findViewById(R.id.primaryGenreName)
@@ -49,12 +48,14 @@ class PlayerActivity(private val track: Track) : AppCompatActivity(){
             artistName.text = track.artistName
             trackTime.text =
                 SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
+            trackClock.text =
+                SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
 
             if (track.collectionName.isEmpty()) {
                 collectionName.visibility = View.GONE
             } else collectionName.text = track.collectionName
 
-            releaseDate.text = track.releaseDate
+            releaseDate.text = track.releaseDate.substringBefore("-")
             primaryGenreName.text = track.primaryGenreName
             country.text = track.country
 

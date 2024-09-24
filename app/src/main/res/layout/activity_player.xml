@@ -44,7 +44,8 @@
         android:layout_width="@dimen/arrow_back_width_and_height"
         android:layout_height="@dimen/arrow_back_width_and_height"
         android:src="@drawable/vector"
-        android:backgroundTint="?attr/colorSecondary"
+        style="@style/arrowTopBackStyle"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="@dimen/arrow_back_player_margin_start"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -52,26 +53,20 @@
         app:layout_constraintTag="@string/back"
         />
 
-    <androidx.constraintlayout.widget.Barrier
-        android:id="@+id/top_barrier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:constraint_referenced_tags="@string/back"
-        app:barrierDirection="bottom"
-        />
+
 
     <ImageView
         android:id="@+id/iconTrack"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="32dp"
         android:layout_marginBottom="16dp"
         android:scaleType="centerCrop"
         app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintEnd_toStartOf="@id/end_guideline"
         app:layout_constraintBottom_toTopOf="@+id/center_barrier"
         app:layout_constraintStart_toEndOf="@id/start_guideline"
-        app:layout_constraintTop_toBottomOf="@id/top_barrier"
+        app:layout_constraintTop_toBottomOf="@id/arrow_back_from_player"
         tools:srcCompat="@drawable/placeholder"
         app:layout_constraintTag="@string/img_album"
         />
@@ -116,11 +111,11 @@
 
     <ImageButton
         android:id="@+id/btn_put_to_playlist"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:backgroundTint="?attr/colorSecondary"
-        android:src="@drawable/puttoplaylistbtn"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="28dp"
+        android:src="?attr/icon"
+        android:background="?attr/colorSecondary"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
         app:layout_constraintTop_toBottomOf="@id/top_btns_barrier"
         android:contentDescription="@string/btnPutToPlaylist"
@@ -131,13 +126,15 @@
         android:id="@+id/btn_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="?attr/colorSecondary"
+        android:background="?attr/colorSecondary"
         android:contentDescription="@string/playBtn"
         android:src="@drawable/playbtn"
+        android:layout_marginTop="24dp"
         app:layout_constraintEnd_toStartOf="@+id/btn_like"
         app:layout_constraintStart_toEndOf="@id/btn_put_to_playlist"
         app:layout_constraintTag="@string/playBtn"
-        app:layout_constraintTop_toBottomOf="@id/top_btns_barrier" />
+        app:layout_constraintTop_toBottomOf="@id/top_btns_barrier"
+        app:tint="?attr/colorOnSecondary" />
 
     <TextView
         android:id="@+id/trackClock"
@@ -146,6 +143,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_play"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+
         android:contentDescription="@string/trackTime"
         android:text="@string/trackTime"
         style="@style/properties_track_player_style"
@@ -154,16 +154,16 @@
 
     <ImageButton
         android:id="@+id/btn_like"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/likebtn"
-        android:backgroundTint="?attr/colorSecondary"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="28dp"
+        android:src="?attr/android:drawable"
+        android:background="?attr/colorSecondary"
         app:layout_constraintEnd_toStartOf="@id/end_guideline"
         app:layout_constraintTop_toBottomOf="@id/top_btns_barrier"
         android:contentDescription="@string/likeBtn"
         app:layout_constraintTag="@string/likeBtn"
-        />
+         />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/top_properties_barrier"
@@ -182,6 +182,7 @@
         android:text="@string/textTime"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
         app:layout_constraintTop_toBottomOf="@id/top_properties_barrier"
+        app:layout_constraintBottom_toTopOf="@id/textAlbumTrack"
         />
 
     <TextView
@@ -192,6 +193,7 @@
         android:text="@string/textAlbum"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
         app:layout_constraintTop_toBottomOf="@id/textTimeTrack"
+        app:layout_constraintBottom_toTopOf="@id/textYearTrack"
         />
 
     <TextView
@@ -202,6 +204,7 @@
         android:text="@string/textYearTrack"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
         app:layout_constraintTop_toBottomOf="@id/textAlbumTrack"
+        app:layout_constraintBottom_toTopOf="@id/textGenreTrack"
         />
 
     <TextView
@@ -212,6 +215,7 @@
         android:text="@string/textGenreTrack"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
         app:layout_constraintTop_toBottomOf="@id/textYearTrack"
+        app:layout_constraintBottom_toTopOf="@id/textCountryTrack"
         />
 
     <TextView
@@ -222,7 +226,7 @@
         android:text="@string/countryTrack"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
         app:layout_constraintTop_toBottomOf="@id/textGenreTrack"
-
+        app:layout_constraintBottom_toBottomOf="@id/bottom_guideline"
         />
 
     <TextView
@@ -234,6 +238,7 @@
         android:text="@string/textTime"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintTop_toBottomOf="@id/top_properties_barrier"
+        app:layout_constraintBottom_toTopOf="@id/collectionName"
         />
 
     <TextView
@@ -244,6 +249,7 @@
         android:text="@string/textAlbum"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintTop_toBottomOf="@id/trackTime"
+        app:layout_constraintBottom_toTopOf="@id/releaseDate"
         />
 
     <TextView
@@ -254,6 +260,7 @@
         android:text="@string/textYearTrack"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintTop_toBottomOf="@id/collectionName"
+        app:layout_constraintBottom_toTopOf="@id/primaryGenreName"
         />
 
     <TextView
@@ -264,6 +271,7 @@
         android:text="@string/textGenreTrack"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintTop_toBottomOf="@id/releaseDate"
+        app:layout_constraintBottom_toTopOf="@id/countryTrack"
         />
 
     <TextView
@@ -274,7 +282,7 @@
         android:text="@string/countryTrack"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintTop_toBottomOf="@id/primaryGenreName"
-
+        app:layout_constraintBottom_toBottomOf="@id/bottom_guideline"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

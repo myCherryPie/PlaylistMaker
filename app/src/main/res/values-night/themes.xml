@@ -13,6 +13,8 @@
         <item name="colorOnTertiary">@color/dark_background</item>
         <item name="searchIcon">@drawable/dark_no_link</item>
         <item name="errorIconTint">@drawable/dark_nothing_found</item>
+        <item name="icon">@drawable/buttontoplaylistdark</item>
+        <item name="android:drawable">@drawable/buttonlikedark</item>
 
     </style>
 </resources>

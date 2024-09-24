@@ -193,6 +193,10 @@
         <item name="fontFamily">@font/ys_text_medium</item>
 
     </style>
+    <style name="btnLikeAndToPlayList">
+        <item name="android:background">?attr/colorSecondary</item>
+        <item name="tint">?attr/colorOnSecondary</item>
+    </style>
 
     !!------------media---------------
 
