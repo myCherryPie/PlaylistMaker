@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
 
         btnSetting.setOnClickListener {
             val displaySettings = Intent(this, SettingsActivity::class.java)
-            startActivity(displaySettings)
+              startActivity(displaySettings)
         }
 
 

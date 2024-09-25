@@ -68,7 +68,10 @@
     <dimen name="btn_clear_history_margin_top_search">24dp</dimen>
     <dimen name="btn_clear_history_margin_start_search">120dp</dimen>
     <dimen name="layout_marginTop_layout_history_search">132dp</dimen>
-
+    <dimen name="text_size_track_name_player">22sp</dimen>
+    <dimen name="text_size_artist_name_player">16sp</dimen>
+    <dimen name="text_size_time_track_player">14sp</dimen>
+    <dimen name="arrow_back_player_margin_start">16dp</dimen>
     !!-------media--------------
 
 

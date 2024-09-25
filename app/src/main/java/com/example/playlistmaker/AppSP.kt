@@ -36,6 +36,7 @@ class AppSP: Application() {
     fun getSettingTheme(): Boolean {
         return sharedPrefs.getBoolean(SETTINGS_KEY,false)
     }
+
     fun saveHistoryOfSearch(tracks : ArrayList<Track>) {
         val json = Gson().toJson(tracks)
         sharedPrefs.edit()
@@ -53,6 +54,7 @@ class AppSP: Application() {
         const val PRACTICUM_EXAMPLE_PREFERENCES = "example_preferences"
         const val SETTINGS_KEY = "settings_theme_key"
         const val HISTORY_TRACK = "history_track"
+        const val TRACK = "track"
 
     }
 }

@@ -12,6 +12,8 @@
         <item name="editTextBackground">@color/grey_back_text_edit</item>
         <item name="searchIcon">@drawable/light_nothing_found</item>
         <item name="errorIconTint">@drawable/light_no_link</item>
+        <item name="icon">@drawable/puttoplaylistbtn</item>
+        <item name="android:drawable">@drawable/likebtn</item>
 
     </style>
 
