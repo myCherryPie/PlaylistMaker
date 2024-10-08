@@ -68,7 +68,22 @@
                     tools:listitem="@layout/track_view"
                     android:visibility="visible"
                     />
+        <FrameLayout
 
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+
+            >
+            <ProgressBar
+                android:id="@+id/progressOfSearch"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/alpha_background"
+                android:visibility="invisible"
+                android:layout_marginTop="56dp"
+                />
+         </FrameLayout>
         <ImageView
             android:id="@+id/image_error_search"
             android:layout_width="@dimen/width_image_error"
@@ -155,6 +170,8 @@
             android:maxLines="1"
             style="@style/button_update_search_style"
             />
+
     </LinearLayout>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

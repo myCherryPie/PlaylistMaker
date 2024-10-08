@@ -1,23 +1,21 @@
 package com.example.playlistmaker
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,8 +32,10 @@ class SearchActivity : AppCompatActivity(), ClickListener {
     private lateinit var searchH : SearchHistory
     private lateinit var tracksAdapterHistory : TrackAdapter
     private lateinit var tracks : ArrayList<Track>
+    private lateinit var searchRunnable: Runnable
+    private var handlerMainThread: Handler? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+        override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_search)
@@ -61,6 +61,8 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         val arrowBackFromSearch = findViewById<ImageButton>(R.id.arrow_back_from_search)
         val btnClearHistory = findViewById<Button>(R.id.btn_clear_history_search)
         val layoutOfHistory = findViewById<LinearLayout>(R.id.layout_history_search)!!
+        val progressOfSearch = findViewById<ProgressBar>(R.id.progressOfSearch)
+            handlerMainThread = Handler(Looper.getMainLooper())
 
 
         if (savedInstanceState != null) {
@@ -78,6 +80,7 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         }
 
         btnInputClear.setOnClickListener {
+
             tracks.clear()
             tracksAdapter.notifyDataSetChanged()
             editTextSearch.setText("")
@@ -114,6 +117,7 @@ class SearchActivity : AppCompatActivity(), ClickListener {
 
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchDebounce()
                 btnInputClear.visibility = visibilityClearButton(s)
                 editTextSearch.isCursorVisible = true
                 countValue = editTextSearch.toString()
@@ -135,55 +139,66 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         recyclerViewHistory.adapter = tracksAdapterHistory
 
 
-        fun findByInput() {
-            if (editTextSearch.text.isNotEmpty()) {
-                playListService.search(editTextSearch.text.toString()).enqueue(object : Callback<SearchResponse> {
-                    override fun onResponse(
-                        call: Call<SearchResponse>,
-                        response: Response<SearchResponse>
-                    ) {
-                        if (response.code() == 200) {
-                            tracks.clear()
-                            if (response.body()?.results?.isNotEmpty() == true) {
-                                tracks.addAll(response.body()?.results!!)
-                                tracksAdapter.notifyDataSetChanged()
-                                placeImgSearchErr.visibility = View.GONE
-                                placeTextError.visibility = View.GONE
-                                btnUpdateSearch.visibility = View.GONE
-                            }
-                            if (tracks.isEmpty()) {
+
+            fun findByInput() {
+                recyclerViewTrack.visibility = View.GONE
+                progressOfSearch.visibility = View.VISIBLE
+
+                if (editTextSearch.text.isNotEmpty()) {
+                    playListService.search(editTextSearch.text.toString()).enqueue(object : Callback<SearchResponse> {
+                        override fun onResponse(
+                            call: Call<SearchResponse>,
+                            response: Response<SearchResponse>
+                        ) {
+                            if (response.code() == 200) {
+                                tracks.clear()
+                                if (response.body()?.results?.isNotEmpty() == true) {
+                                    tracks.addAll(response.body()?.results!!)
+                                    tracksAdapter.notifyDataSetChanged()
+                                    recyclerViewTrack.visibility = View.VISIBLE
+                                    progressOfSearch.visibility = View.GONE
+                                    placeImgSearchErr.visibility = View.GONE
+                                    placeTextError.visibility = View.GONE
+                                    btnUpdateSearch.visibility = View.GONE
+                                }
+                                if (tracks.isEmpty()) {
+                                    progressOfSearch.visibility = View.GONE
+                                    recyclerViewTrack.visibility = View.GONE
+                                    placeImgSearchErr.visibility = View.VISIBLE
+                                    placeTextError.visibility = View.VISIBLE
+                                    btnUpdateSearch.visibility = View.GONE
+                                    placeTextError.setText(R.string.nothing_found)
+                                }
+                            } else {
+                                progressOfSearch.visibility = View.GONE
                                 recyclerViewTrack.visibility = View.GONE
-                                placeImgSearchErr.visibility = View.VISIBLE
+                                placeImgLinkErr.visibility = View.VISIBLE
                                 placeTextError.visibility = View.VISIBLE
-                                btnUpdateSearch.visibility = View.GONE
-                                placeTextError.setText(R.string.nothing_found)
+                                placeTextError.setText(response.code())
                             }
-                        } else {
+                        }
+
+                        override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+                            progressOfSearch.visibility = View.GONE
                             recyclerViewTrack.visibility = View.GONE
                             placeImgLinkErr.visibility = View.VISIBLE
                             placeTextError.visibility = View.VISIBLE
-                            placeTextError.setText(response.code())
+                            btnUpdateSearch.visibility = View.VISIBLE
+                            placeTextError.setText(R.string.no_link)
+                            btnUpdateSearch.setOnClickListener {
+                                recyclerViewTrack.visibility = View.VISIBLE
+                                placeImgLinkErr.visibility = View.GONE
+                                placeTextError.visibility = View.GONE
+                                btnUpdateSearch.visibility = View.GONE
+                                findByInput()
+                            }
                         }
-                    }
 
-                    override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                        recyclerViewTrack.visibility = View.GONE
-                        placeImgLinkErr.visibility = View.VISIBLE
-                        placeTextError.visibility = View.VISIBLE
-                        btnUpdateSearch.visibility = View.VISIBLE
-                        placeTextError.setText(R.string.no_link)
-                        btnUpdateSearch.setOnClickListener {
-                            recyclerViewTrack.visibility = View.VISIBLE
-                            placeImgLinkErr.visibility = View.GONE
-                            placeTextError.visibility = View.GONE
-                            btnUpdateSearch.visibility = View.GONE
-                            findByInput()
-                        }
-                    }
-
-                })
+                    })
+                }
             }
-        }
+       searchRunnable = Runnable {findByInput()}
+
         editTextSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 findByInput()
@@ -192,7 +207,10 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         }
         editTextSearch.addTextChangedListener(textWatcherSearch)
     }
-
+    fun searchDebounce(){
+        handlerMainThread?.removeCallbacks(searchRunnable)
+        handlerMainThread?.postDelayed(searchRunnable, SEARCH_DELAY)
+    }
     private var countValue: String = AMOUNT_DEF
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -214,7 +232,7 @@ class SearchActivity : AppCompatActivity(), ClickListener {
     companion object {
         const val SEARCH_AMOUNT = "SEARCH_AMOUNT"
         const val AMOUNT_DEF = ""
-        const val TRACK = "track"
+        const val SEARCH_DELAY = 2000L
 
     }
 }
