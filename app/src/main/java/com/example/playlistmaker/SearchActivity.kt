@@ -34,7 +34,7 @@ class SearchActivity : AppCompatActivity(), ClickListener {
     private lateinit var tracks : ArrayList<Track>
     private lateinit var searchRunnable: Runnable
     private var handlerMainThread: Handler? = null
-
+    private var isClickAllowed = true
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -62,6 +62,7 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         val btnClearHistory = findViewById<Button>(R.id.btn_clear_history_search)
         val layoutOfHistory = findViewById<LinearLayout>(R.id.layout_history_search)!!
         val progressOfSearch = findViewById<ProgressBar>(R.id.progressOfSearch)
+
             handlerMainThread = Handler(Looper.getMainLooper())
 
 
@@ -224,7 +225,19 @@ class SearchActivity : AppCompatActivity(), ClickListener {
             View.VISIBLE
         }
     }
-
+    private fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handlerMainThread?.postDelayed({ isClickAllowed = true },
+                CLICK_DEBOUNCE_DELAY
+            )
+        }
+        return current
+    }
+        fun getClickDebounce (): Boolean {
+            return clickDebounce()
+        }
     override fun onClick(track: Track) {
         searchH.addTrackToList(track)
 
@@ -233,6 +246,6 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         const val SEARCH_AMOUNT = "SEARCH_AMOUNT"
         const val AMOUNT_DEF = ""
         const val SEARCH_DELAY = 2000L
-
+       const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 }

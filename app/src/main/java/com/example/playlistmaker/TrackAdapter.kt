@@ -19,14 +19,20 @@ class TrackAdapter( private val tracks: List<Track>,private val listener: ClickL
     }
 
     override fun onBindViewHolder(holder: TrackViewHolder, position: Int) {
+        val searchAct = SearchActivity()
         val  tr = tracks[position]
         val trackPosition = Gson().toJson(tr)
         holder.bind(tr, listener)
         holder.itemView.setOnClickListener {
-            listener.onClick(tr)
-            val player = Intent(it.context,PlayerActivity::class.java)
-           player.putExtra(TRACK,trackPosition)
-            it.context.startActivity(player)
+
+                listener.onClick(tr)
+                if(searchAct.getClickDebounce()) {
+                val player = Intent(it.context, PlayerActivity::class.java)
+                player.putExtra(TRACK, trackPosition )
+                it.context.startActivity(player)
+            }
         }
     }
-}
+
+    } //срабатывает прогрессБар когда отображается история and err
+
