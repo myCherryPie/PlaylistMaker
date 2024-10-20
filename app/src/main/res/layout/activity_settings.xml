@@ -21,7 +21,7 @@
             <ImageButton
                 style="@style/arrowTopBackStyle"
                 android:id="@+id/arrow_back_from_settings"
-                app:srcCompat="@drawable/vector"
+                app:srcCompat="@drawable/arrow_back"
                 android:contentDescription="@string/arrow_back" />
             <TextView
                 style="@style/textTopSecondStyle"

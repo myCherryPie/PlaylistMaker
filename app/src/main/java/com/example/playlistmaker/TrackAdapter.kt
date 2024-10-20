@@ -34,5 +34,5 @@ class TrackAdapter( private val tracks: List<Track>,private val listener: ClickL
         }
     }
 
-    } //срабатывает прогрессБар когда отображается история and err
+    }
 

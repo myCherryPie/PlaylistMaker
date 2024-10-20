@@ -27,7 +27,7 @@
                     android:id="@+id/arrow_back_from_search"
                     style="@style/arrowTopBackStyle"
                     android:contentDescription="@string/arrow_back"
-                    app:srcCompat="@drawable/vector" />
+                    app:srcCompat="@drawable/arrow_back" />
 
                 <TextView
                     style="@style/textTopSecondStyle"
@@ -38,27 +38,22 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/major_LL_height">
-
             <LinearLayout style="@style/edit_text_LL_search_style">
-
                 <ImageView
                     style="@style/icon_search_style"
                     app:srcCompat="@drawable/search"
                      />
-
                 <EditText
                     android:id="@+id/edit_text_search"
                     style="@style/edit_text_LL_search_style"
-                    android:imeOptions="actionDone"
+                    android:imeOptions="actionSearch"
                     android:singleLine="true"
                     android:cursorVisible="true"
                      />
-
                 <ImageView style="@style/icon_clear_search_style"
                     android:id="@+id/clear_cross_search"
                      />
             </LinearLayout>
-
 
         </LinearLayout>
                 <androidx.recyclerview.widget.RecyclerView
@@ -69,10 +64,8 @@
                     android:visibility="visible"
                     />
         <FrameLayout
-
             android:layout_width="match_parent"
             android:layout_height="200dp"
-
             >
             <ProgressBar
                 android:id="@+id/progressOfSearch"
@@ -83,7 +76,7 @@
                 android:visibility="invisible"
                 android:layout_marginTop="56dp"
                 />
-         </FrameLayout>
+        </FrameLayout>
         <ImageView
             android:id="@+id/image_error_search"
             android:layout_width="@dimen/width_image_error"
@@ -125,6 +118,7 @@
             android:visibility="gone"
             style="@style/button_update_search_style"/>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -174,4 +168,5 @@
     </LinearLayout>
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

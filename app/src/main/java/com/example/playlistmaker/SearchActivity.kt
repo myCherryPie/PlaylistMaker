@@ -81,16 +81,15 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         }
 
         btnInputClear.setOnClickListener {
-
             tracks.clear()
-            tracksAdapter.notifyDataSetChanged()
             editTextSearch.setText("")
-            editTextSearch.clearFocus()
             editTextSearch.isCursorVisible = false
             btnUpdateSearch.visibility = View.GONE
             placeImgSearchErr.visibility = View.GONE
             placeImgLinkErr.visibility = View.GONE
             placeTextError.visibility = View.GONE
+            editTextSearch.clearFocus()
+            tracksAdapter.notifyDataSetChanged()
         }
         fun updateRecyclerHistory(){
             layoutOfHistory.visibility = View.VISIBLE
@@ -115,7 +114,6 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         val textWatcherSearch = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 editTextSearch.isCursorVisible = true
-
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 searchDebounce()
@@ -139,13 +137,10 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         recyclerViewHistory.layoutManager = LinearLayoutManager(this)
         recyclerViewHistory.adapter = tracksAdapterHistory
 
-
-
             fun findByInput() {
                 recyclerViewTrack.visibility = View.GONE
-                progressOfSearch.visibility = View.VISIBLE
-
                 if (editTextSearch.text.isNotEmpty()) {
+                    progressOfSearch.visibility = View.VISIBLE
                     playListService.search(editTextSearch.text.toString()).enqueue(object : Callback<SearchResponse> {
                         override fun onResponse(
                             call: Call<SearchResponse>,
@@ -207,6 +202,7 @@ class SearchActivity : AppCompatActivity(), ClickListener {
             false
         }
         editTextSearch.addTextChangedListener(textWatcherSearch)
+
     }
     fun searchDebounce(){
         handlerMainThread?.removeCallbacks(searchRunnable)
@@ -240,7 +236,6 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         }
     override fun onClick(track: Track) {
         searchH.addTrackToList(track)
-
     }
     companion object {
         const val SEARCH_AMOUNT = "SEARCH_AMOUNT"
