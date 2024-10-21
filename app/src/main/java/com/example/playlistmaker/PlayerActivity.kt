@@ -25,7 +25,7 @@ class PlayerActivity() : AppCompatActivity() {
     private lateinit var url: String
     private var mediaPlayer = MediaPlayer()
     private var playerState = STATE_DEFAULT
-
+    private lateinit var playerRunnable:Runnable
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -52,22 +52,22 @@ class PlayerActivity() : AppCompatActivity() {
             "mm:ss",
             Locale.getDefault()
         ).format(STARTING_TIME_TRACK_CLOCK)
+        playerRunnable = Runnable {updateTimer()}
+
 
     }
     val mainThread = Handler(Looper.getMainLooper())
 
      fun trackClock() {
-         mainThread.post(updateTimer())
+         mainThread.post(playerRunnable)
      }
-    fun updateTimer():Runnable {
-        return object : Runnable {
-            override fun run() {
+    fun updateTimer() {
                 if(playerState != STATE_PREPARED) {
                     timer.text = SimpleDateFormat(
                         "mm:ss",
                         Locale.getDefault()
                     ).format(mediaPlayer.currentPosition.toLong())
-                    mainThread.postDelayed(this, DELAY_PLAY_CLOCK)
+                    mainThread.postDelayed(playerRunnable, DELAY_PLAY_CLOCK)
                 }else {
                     timer.text = SimpleDateFormat(
                         "mm:ss",
@@ -75,15 +75,15 @@ class PlayerActivity() : AppCompatActivity() {
                     ).format(STARTING_TIME_TRACK_CLOCK)
                 }
             }
-        }
-    }
+
     override fun onPause() {
         super.onPause()
         pausePlayer()
     }
     override fun onDestroy() {
-        super.onDestroy()
+        mainThread.removeCallbacks(playerRunnable)
         mediaPlayer.release()
+        super.onDestroy()
     }
     private fun playbackControl() {
         when(playerState) {
@@ -103,7 +103,7 @@ class PlayerActivity() : AppCompatActivity() {
     }
     private fun pausePlayer() {
         mediaPlayer.pause()
-        mainThread.removeCallbacks(updateTimer())
+        mainThread.removeCallbacks(playerRunnable)
         play.setImageResource(R.drawable.playbtn)
         playerState = STATE_PAUSED
     }
@@ -116,12 +116,12 @@ class PlayerActivity() : AppCompatActivity() {
         }
         mediaPlayer.setOnCompletionListener {
             play.setImageResource(R.drawable.playbtn)
-            mainThread.removeCallbacks(updateTimer())
             timer.text = SimpleDateFormat(
                 "mm:ss",
                 Locale.getDefault()
             ).format(STARTING_TIME_TRACK_CLOCK)
             playerState = STATE_PREPARED
+            mainThread.removeCallbacks(playerRunnable)
         }
     }
     fun inflatePlayer(track: Track) {

@@ -33,7 +33,8 @@ class SearchActivity : AppCompatActivity(), ClickListener {
     private lateinit var tracksAdapterHistory : TrackAdapter
     private lateinit var tracks : ArrayList<Track>
     private lateinit var searchRunnable: Runnable
-    private var handlerMainThread: Handler? = null
+    private var handlerMainThread = Handler(Looper.getMainLooper())
+
     private var isClickAllowed = true
         override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +64,7 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         val layoutOfHistory = findViewById<LinearLayout>(R.id.layout_history_search)!!
         val progressOfSearch = findViewById<ProgressBar>(R.id.progressOfSearch)
 
-            handlerMainThread = Handler(Looper.getMainLooper())
+
 
 
         if (savedInstanceState != null) {
