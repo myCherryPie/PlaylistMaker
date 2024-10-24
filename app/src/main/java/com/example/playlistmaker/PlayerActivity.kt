@@ -4,9 +4,9 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.os.Parcelable
 import android.util.TypedValue
 import android.view.View
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -14,8 +14,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.example.playlistmaker.AppSP.Companion.TRACK
-import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -38,12 +36,14 @@ class PlayerActivity() : AppCompatActivity() {
         arrowBackFromPlayer.setOnClickListener {
             finish()
         }
-        val track = Gson().fromJson(
-            intent.getStringExtra(TRACK),
-            Track::class.java
-        )
-        inflatePlayer(track)
-        url = track.previewUrl
+        val track: Track? = intent.getParcelableExtra<Parcelable>(
+            Track::class.java.canonicalName
+        ) as Track?
+
+        if (track != null) {
+            inflatePlayer(track)
+        }
+        url = track?.previewUrl.toString()
         preparePlayer()
         play.setOnClickListener {
             playbackControl()
@@ -56,12 +56,12 @@ class PlayerActivity() : AppCompatActivity() {
 
 
     }
-    val mainThread = Handler(Looper.getMainLooper())
+    private val mainThread = Handler(Looper.getMainLooper())
 
-     fun trackClock() {
+     private fun trackClock() {
          mainThread.post(playerRunnable)
      }
-    fun updateTimer() {
+    private fun updateTimer() {
                 if(playerState != STATE_PREPARED) {
                     timer.text = SimpleDateFormat(
                         "mm:ss",
@@ -124,7 +124,7 @@ class PlayerActivity() : AppCompatActivity() {
             mainThread.removeCallbacks(playerRunnable)
         }
     }
-    fun inflatePlayer(track: Track) {
+    private fun inflatePlayer(track: Track) {
         val trackName: TextView = findViewById(R.id.trackName)
         val artistName: TextView = findViewById(R.id.artistName)
         val trackTime: TextView = findViewById(R.id.trackTime)
@@ -143,16 +143,16 @@ class PlayerActivity() : AppCompatActivity() {
         trackClock.text =
             SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis)
 
-        if (track.collectionName.isEmpty()) {
+        if (track.collectionName?.isEmpty() == true) {
             collectionName.visibility = View.GONE
         } else collectionName.text = track.collectionName
 
-        releaseDate.text = track.releaseDate.substringBefore("-")
+        releaseDate.text = track.releaseDate?.substringBefore("-")
         primaryGenreName.text = track.primaryGenreName
         country.text = track.country
 
         Glide.with(iconTrack)
-            .load(track.artworkUrl100.replaceAfterLast('/', "512x512bb.jpg"))
+            .load(track.artworkUrl100?.replaceAfterLast('/', "512x512bb.jpg"))
             .placeholder(R.drawable.placeholder)
             .fitCenter()
             .transform(

@@ -1,12 +1,27 @@
 package com.example.playlistmaker
 
-class SearchHistory (private val sharedPrefs : AppSP) {
-    private var tracks : ArrayList<Track> = sharedPrefs.getHistoryOfSearch()
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 
+class SearchHistory () {
+    private val appSP = AppSP()
+    private var tracks : ArrayList<Track> = getHistoryOfSearch()
+    private fun saveHistoryOfSearch(tracks : ArrayList<Track>) {
+        val json = Gson().toJson(tracks)
+        appSP.sharedPrefs.edit()
+            .putString(HISTORY_TRACK, json)
+            .apply()
+    }
+
+    private fun getHistoryOfSearch(): ArrayList<Track> {
+        val json = appSP.sharedPrefs.getString(HISTORY_TRACK,null)?:return ArrayList()
+        val token = object : TypeToken<ArrayList<Track>>() {}.type
+        return Gson().fromJson(json, token)
+    }
     fun addTrackToList(track: Track) {
         if (tracks.isEmpty()) {
             tracks.add(track)
-            sharedPrefs.saveHistoryOfSearch(tracks)
+            saveHistoryOfSearch(tracks)
             return
         }
         if (tracks.isNotEmpty()) {
@@ -14,7 +29,7 @@ class SearchHistory (private val sharedPrefs : AppSP) {
                 if (item.trackId.equals(track.trackId)) {
                     tracks.remove(item)
                     tracks.add(0, track)
-                    sharedPrefs.saveHistoryOfSearch(tracks)
+                    saveHistoryOfSearch(tracks)
                     return
                 }
             }
@@ -25,7 +40,7 @@ class SearchHistory (private val sharedPrefs : AppSP) {
             tracks.removeLast()
             tracks.add(0, track)
         }
-        sharedPrefs.saveHistoryOfSearch(tracks)
+        saveHistoryOfSearch(tracks)
     }
 
     fun getTracks(): ArrayList<Track> {
@@ -34,10 +49,11 @@ class SearchHistory (private val sharedPrefs : AppSP) {
 
     fun cleanList() {
         tracks.clear()
-        sharedPrefs.saveHistoryOfSearch(tracks)
+        saveHistoryOfSearch(tracks)
     }
 
     companion object {
         const val MAX_SIZE_LIST = 10
+        const val HISTORY_TRACK = "history_track"
     }
 }
