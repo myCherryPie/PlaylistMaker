@@ -3,18 +3,15 @@ package com.example.playlistmaker
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-class SearchHistory () {
-    private val appSP = AppSP()
+open class SearchHistory (private val sharedPrefs : AppSP) {
     private var tracks : ArrayList<Track> = getHistoryOfSearch()
-    private fun saveHistoryOfSearch(tracks : ArrayList<Track>) {
+    fun saveHistoryOfSearch(tracks : ArrayList<Track>) {
         val json = Gson().toJson(tracks)
-        appSP.sharedPrefs.edit()
-            .putString(HISTORY_TRACK, json)
-            .apply()
+        sharedPrefs.edit(HISTORY_TRACK,json)
     }
 
     private fun getHistoryOfSearch(): ArrayList<Track> {
-        val json = appSP.sharedPrefs.getString(HISTORY_TRACK,null)?:return ArrayList()
+       val json = sharedPrefs.getString(HISTORY_TRACK)
         val token = object : TypeToken<ArrayList<Track>>() {}.type
         return Gson().fromJson(json, token)
     }
@@ -34,7 +31,7 @@ class SearchHistory () {
                 }
             }
         }
-        if (tracks.size < MAX_SIZE_LIST) {
+        if (tracks.size < SearchHistory.MAX_SIZE_LIST) {
             tracks.add(0, track)
         } else {
             tracks.removeLast()

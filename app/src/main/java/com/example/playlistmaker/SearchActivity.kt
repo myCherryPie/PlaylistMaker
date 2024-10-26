@@ -1,5 +1,6 @@
 package com.example.playlistmaker
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -27,11 +28,13 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class SearchActivity : AppCompatActivity() {
 
+class SearchActivity : AppCompatActivity() {
+    var context: Context = this
     private lateinit var  tracksHistory : ArrayList<Track>
     private lateinit var tracksAdapterHistory : TrackAdapter
-    private lateinit var tracks : ArrayList<Track>
+    private var tracks = ArrayList<Track>()
+    private lateinit var searchH : SearchHistory
     private lateinit var searchRunnable: Runnable
     private var handlerMainThread = Handler(Looper.getMainLooper())
     private var isClickAllowed = true
@@ -40,11 +43,11 @@ class SearchActivity : AppCompatActivity() {
         enableEdgeToEdge()
         setContentView(R.layout.activity_search)
 
-            val searchH = SearchHistory()
-            tracks = mutableListOf<Track>() as ArrayList<Track>
+        searchH = SearchHistory(applicationContext as AppSP)
+        tracks = mutableListOf<Track>() as ArrayList<Track>
         tracksHistory = searchH.getTracks()
-        val tracksAdapter = TrackAdapter(tracks)
-        tracksAdapterHistory = TrackAdapter(tracksHistory)
+        val tracksAdapter = TrackAdapter(tracks,searchH)
+        tracksAdapterHistory = TrackAdapter(tracksHistory,searchH)
 
         val urlItunesApi = getString(R.string.base_url_itunes)
         val retrofit = Retrofit.Builder()
@@ -221,7 +224,7 @@ class SearchActivity : AppCompatActivity() {
             View.VISIBLE
         }
     }
-    private fun clickDebounce() : Boolean {
+    fun clickDebounce() : Boolean {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
@@ -232,13 +235,11 @@ class SearchActivity : AppCompatActivity() {
         return current
     }
 
-    fun onClick(track: Track) {
-         val searchH = SearchHistory()
-        searchH.addTrackToList(track)
+   fun onClick(track: Track) {
         if (clickDebounce()) {
-            val player = Intent(this@SearchActivity, PlayerActivity::class.java)
-            intent.putExtra(Track::class.java.canonicalName, track)
-            startActivity(player)
+            val player = Intent(this, PlayerActivity::class.java)
+            player.putExtra(Track::class.java.canonicalName, track)
+            context.startActivity(player)
         }
         }
 
@@ -246,7 +247,6 @@ class SearchActivity : AppCompatActivity() {
     companion object {
         const val SEARCH_AMOUNT = "SEARCH_AMOUNT"
         const val AMOUNT_DEF = ""
-        const val TRACK = "track"
         const val SEARCH_DELAY = 2000L
        const val CLICK_DEBOUNCE_DELAY = 1000L
     }

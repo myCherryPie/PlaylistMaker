@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatDelegate
 
 class AppSP: Application() {
     private var darkTheme = false
-    lateinit var sharedPrefs: SharedPreferences
+    private lateinit var sharedPrefs: SharedPreferences
 
     override fun onCreate() {
         super.onCreate()
@@ -33,6 +33,14 @@ class AppSP: Application() {
         return sharedPrefs.getBoolean(SETTINGS_KEY,false)
     }
 
+    fun getString(historyTrack: String): String? {
+        return sharedPrefs.getString(historyTrack, null)
+    }
+    fun edit(constHistory:String,json:String){
+        sharedPrefs.edit()
+            .putString(constHistory, json)
+            .apply()
+    }
     companion object {
         const val PRACTICUM_EXAMPLE_PREFERENCES = "example_preferences"
         const val SETTINGS_KEY = "settings_theme_key"
