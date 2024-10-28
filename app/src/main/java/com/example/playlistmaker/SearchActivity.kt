@@ -38,7 +38,9 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchRunnable: Runnable
     private var handlerMainThread = Handler(Looper.getMainLooper())
     private var isClickAllowed = true
-        override fun onCreate(savedInstanceState: Bundle?) {
+    val onItemClick:(Track)->Unit = { track -> onClick(track) }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_search)
@@ -46,8 +48,8 @@ class SearchActivity : AppCompatActivity() {
         searchH = SearchHistory(applicationContext as AppSP)
         tracks = mutableListOf<Track>() as ArrayList<Track>
         tracksHistory = searchH.getTracks()
-        val tracksAdapter = TrackAdapter(tracks,searchH)
-        tracksAdapterHistory = TrackAdapter(tracksHistory,searchH)
+        val tracksAdapter = TrackAdapter(onItemClick,tracks,searchH)
+        tracksAdapterHistory = TrackAdapter(onItemClick,tracksHistory,searchH)
 
         val urlItunesApi = getString(R.string.base_url_itunes)
         val retrofit = Retrofit.Builder()
