@@ -30,7 +30,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class SearchActivity : AppCompatActivity() {
-    var context: Context = this
     private lateinit var  tracksHistory : ArrayList<Track>
     private lateinit var tracksAdapterHistory : TrackAdapter
     private var tracks = ArrayList<Track>()
@@ -38,7 +37,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchRunnable: Runnable
     private var handlerMainThread = Handler(Looper.getMainLooper())
     private var isClickAllowed = true
-    val onItemClick:(Track)->Unit = { track -> onClick(track) }
+    private val onItemClick:(Track)->Unit = { track -> onClick(track) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -241,7 +240,7 @@ class SearchActivity : AppCompatActivity() {
         if (clickDebounce()) {
             val player = Intent(this, PlayerActivity::class.java)
             player.putExtra(Track::class.java.canonicalName, track)
-            context.startActivity(player)
+            startActivity(player)
         }
         }
 

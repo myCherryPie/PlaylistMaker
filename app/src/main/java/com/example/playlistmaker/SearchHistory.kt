@@ -5,7 +5,7 @@ import com.google.gson.reflect.TypeToken
 
 open class SearchHistory (private val sharedPrefs : AppSP) {
     private var tracks : ArrayList<Track> = getHistoryOfSearch()
-    fun saveHistoryOfSearch(tracks : ArrayList<Track>) {
+    private fun saveHistoryOfSearch(tracks : ArrayList<Track>) {
         val json = Gson().toJson(tracks)
         sharedPrefs.edit(HISTORY_TRACK,json)
     }
@@ -31,7 +31,7 @@ open class SearchHistory (private val sharedPrefs : AppSP) {
                 }
             }
         }
-        if (tracks.size < SearchHistory.MAX_SIZE_LIST) {
+        if (tracks.size < MAX_SIZE_LIST) {
             tracks.add(0, track)
         } else {
             tracks.removeLast()
