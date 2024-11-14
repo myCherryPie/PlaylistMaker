@@ -1,6 +1,5 @@
 package com.example.playlistmaker
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -37,7 +36,8 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var searchRunnable: Runnable
     private var handlerMainThread = Handler(Looper.getMainLooper())
     private var isClickAllowed = true
-    private val onItemClick:(Track)->Unit = { track -> onClick(track) }
+    private val onClick:(Track)->Unit = { track -> onClick(track)
+    searchH.addTrackToList(track)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,8 +47,8 @@ class SearchActivity : AppCompatActivity() {
         searchH = SearchHistory(applicationContext as AppSP)
         tracks = mutableListOf<Track>() as ArrayList<Track>
         tracksHistory = searchH.getTracks()
-        val tracksAdapter = TrackAdapter(onItemClick,tracks,searchH)
-        tracksAdapterHistory = TrackAdapter(onItemClick,tracksHistory,searchH)
+        val tracksAdapter = TrackAdapter(onClick,tracks)
+        tracksAdapterHistory = TrackAdapter(onClick,tracksHistory)
 
         val urlItunesApi = getString(R.string.base_url_itunes)
         val retrofit = Retrofit.Builder()
@@ -141,63 +141,63 @@ class SearchActivity : AppCompatActivity() {
         recyclerViewHistory.layoutManager = LinearLayoutManager(this)
         recyclerViewHistory.adapter = tracksAdapterHistory
 
-            fun findByInput() {
-                recyclerViewTrack.visibility = View.GONE
-                if (editTextSearch.text.isNotEmpty()) {
-                    progressOfSearch.visibility = View.VISIBLE
-                    playListService.search(editTextSearch.text.toString()).enqueue(object : Callback<SearchResponse> {
-                        override fun onResponse(
-                            call: Call<SearchResponse>,
-                            response: Response<SearchResponse>
-                        ) {
-                            if (response.code() == 200) {
-                                tracks.clear()
-                                if (response.body()?.results?.isNotEmpty() == true) {
-                                    tracks.addAll(response.body()?.results!!)
-                                    tracksAdapter.notifyDataSetChanged()
-                                    recyclerViewTrack.visibility = View.VISIBLE
-                                    progressOfSearch.visibility = View.GONE
-                                    placeImgSearchErr.visibility = View.GONE
-                                    placeTextError.visibility = View.GONE
-                                    btnUpdateSearch.visibility = View.GONE
-                                }
-                                if (tracks.isEmpty()) {
-                                    progressOfSearch.visibility = View.GONE
-                                    recyclerViewTrack.visibility = View.GONE
-                                    placeImgSearchErr.visibility = View.VISIBLE
-                                    placeTextError.visibility = View.VISIBLE
-                                    btnUpdateSearch.visibility = View.GONE
-                                    placeTextError.setText(R.string.nothing_found)
-                                }
-                            } else {
+        fun findByInput() {
+            recyclerViewTrack.visibility = View.GONE
+            if (editTextSearch.text.isNotEmpty()) {
+                progressOfSearch.visibility = View.VISIBLE
+                playListService.search(editTextSearch.text.toString()).enqueue(object : Callback<SearchResponse> {
+                    override fun onResponse(
+                        call: Call<SearchResponse>,
+                        response: Response<SearchResponse>
+                    ) {
+                        if (response.code() == 200) {
+                            tracks.clear()
+                            if (response.body()?.results?.isNotEmpty() == true) {
+                                tracks.addAll(response.body()?.results!!)
+                                tracksAdapter.notifyDataSetChanged()
+                                recyclerViewTrack.visibility = View.VISIBLE
+                                progressOfSearch.visibility = View.GONE
+                                placeImgSearchErr.visibility = View.GONE
+                                placeTextError.visibility = View.GONE
+                                btnUpdateSearch.visibility = View.GONE
+                            }
+                            if (tracks.isEmpty()) {
                                 progressOfSearch.visibility = View.GONE
                                 recyclerViewTrack.visibility = View.GONE
-                                placeImgLinkErr.visibility = View.VISIBLE
+                                placeImgSearchErr.visibility = View.VISIBLE
                                 placeTextError.visibility = View.VISIBLE
-                                placeTextError.setText(response.code())
+                                btnUpdateSearch.visibility = View.GONE
+                                placeTextError.setText(R.string.nothing_found)
                             }
-                        }
-
-                        override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+                        } else {
                             progressOfSearch.visibility = View.GONE
                             recyclerViewTrack.visibility = View.GONE
                             placeImgLinkErr.visibility = View.VISIBLE
                             placeTextError.visibility = View.VISIBLE
-                            btnUpdateSearch.visibility = View.VISIBLE
-                            placeTextError.setText(R.string.no_link)
-                            btnUpdateSearch.setOnClickListener {
-                                recyclerViewTrack.visibility = View.VISIBLE
-                                placeImgLinkErr.visibility = View.GONE
-                                placeTextError.visibility = View.GONE
-                                btnUpdateSearch.visibility = View.GONE
-                                findByInput()
-                            }
+                            placeTextError.setText(response.code())
                         }
+                    }
 
-                    })
-                }
+                    override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+                        progressOfSearch.visibility = View.GONE
+                        recyclerViewTrack.visibility = View.GONE
+                        placeImgLinkErr.visibility = View.VISIBLE
+                        placeTextError.visibility = View.VISIBLE
+                        btnUpdateSearch.visibility = View.VISIBLE
+                        placeTextError.setText(R.string.no_link)
+                        btnUpdateSearch.setOnClickListener {
+                            recyclerViewTrack.visibility = View.VISIBLE
+                            placeImgLinkErr.visibility = View.GONE
+                            placeTextError.visibility = View.GONE
+                            btnUpdateSearch.visibility = View.GONE
+                            findByInput()
+                        }
+                    }
+
+                })
             }
-       searchRunnable = Runnable {findByInput()}
+        }
+        searchRunnable = Runnable {findByInput()}
 
         editTextSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
@@ -236,19 +236,19 @@ class SearchActivity : AppCompatActivity() {
         return current
     }
 
-   fun onClick(track: Track) {
+    fun onClick(track: Track) {
         if (clickDebounce()) {
             val player = Intent(this, PlayerActivity::class.java)
             player.putExtra(Track::class.java.canonicalName, track)
             startActivity(player)
         }
-        }
+    }
 
 
     companion object {
         const val SEARCH_AMOUNT = "SEARCH_AMOUNT"
         const val AMOUNT_DEF = ""
         const val SEARCH_DELAY = 2000L
-       const val CLICK_DEBOUNCE_DELAY = 1000L
+        const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 }

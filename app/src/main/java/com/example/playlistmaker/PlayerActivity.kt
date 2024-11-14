@@ -1,5 +1,7 @@
 package com.example.playlistmaker
 
+import android.content.Context
+import android.content.Intent
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
@@ -165,6 +167,10 @@ class PlayerActivity() : AppCompatActivity() {
                 )
             )
             .into(iconTrack)
+    }
+    fun startActivityPlayer(context: Context){
+        val player = Intent(context,PlayerActivity::class.java)
+        context.startActivity(player)
     }
     companion object {
         private const val STATE_DEFAULT = 0

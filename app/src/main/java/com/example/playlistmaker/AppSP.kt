@@ -3,9 +3,10 @@ package com.example.playlistmaker
 import android.app.Application
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatDelegate
+import com.google.gson.Gson
 
 
-class AppSP: Application() {
+open class AppSP: Application() {
     private var darkTheme = false
     private lateinit var sharedPrefs: SharedPreferences
 
@@ -13,7 +14,6 @@ class AppSP: Application() {
         super.onCreate()
         sharedPrefs = getSharedPreferences(PRACTICUM_EXAMPLE_PREFERENCES, MODE_PRIVATE)
         darkTheme = sharedPrefs.getBoolean(SETTINGS_KEY, false)
-
     }
 
     fun switchTheme(darkThemeEnabled: Boolean) {
@@ -32,7 +32,6 @@ class AppSP: Application() {
     fun getSettingTheme(): Boolean {
         return sharedPrefs.getBoolean(SETTINGS_KEY,false)
     }
-
     fun getString(historyTrack: String): String? {
         return sharedPrefs.getString(historyTrack, null)
     }
