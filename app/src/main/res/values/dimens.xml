@@ -73,6 +73,13 @@
     <dimen name="text_size_time_track_player">14sp</dimen>
     <dimen name="arrow_back_player_margin_start">12dp</dimen>
     !!-------media--------------
+    !!-------player--------------
+
+    <dimen name="start_end_guideline_layout_constraintGuide_begin">16dp</dimen>
+    <dimen name="start_end_guideline_for_btn">24dp</dimen>
+    <dimen name="trackClock_marginTop">16dp</dimen>
+    <dimen name="text_properties_margin_top">9dp</dimen>
+
 
 
 </resources>
