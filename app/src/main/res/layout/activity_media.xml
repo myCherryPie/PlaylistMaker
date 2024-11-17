@@ -22,7 +22,7 @@
                 android:id="@+id/arrow_back_from_media"
                 style="@style/arrowTopBackStyle"
                 android:contentDescription="@string/arrow_back"
-                app:srcCompat="@drawable/vector" />
+                app:srcCompat="@drawable/arrow_back" />
             <TextView
                 style="@style/textTopSecondStyle"
                 android:text="@string/media" />

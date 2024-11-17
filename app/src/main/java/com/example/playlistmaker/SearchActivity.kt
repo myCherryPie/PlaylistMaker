@@ -1,23 +1,22 @@
 package com.example.playlistmaker
 
-import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,12 +27,17 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class SearchActivity : AppCompatActivity(), ClickListener {
 
+class SearchActivity : AppCompatActivity() {
     private lateinit var  tracksHistory : ArrayList<Track>
-    private lateinit var searchH : SearchHistory
     private lateinit var tracksAdapterHistory : TrackAdapter
-    private lateinit var tracks : ArrayList<Track>
+    private var tracks = ArrayList<Track>()
+    private lateinit var searchH : SearchHistory
+    private lateinit var searchRunnable: Runnable
+    private var handlerMainThread = Handler(Looper.getMainLooper())
+    private var isClickAllowed = true
+    private val onClick:(Track)->Unit = { track -> onClick(track)
+    searchH.addTrackToList(track)}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,8 +47,8 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         searchH = SearchHistory(applicationContext as AppSP)
         tracks = mutableListOf<Track>() as ArrayList<Track>
         tracksHistory = searchH.getTracks()
-        val tracksAdapter = TrackAdapter(tracks,this)
-        tracksAdapterHistory = TrackAdapter(tracksHistory,this)
+        val tracksAdapter = TrackAdapter(onClick,tracks)
+        tracksAdapterHistory = TrackAdapter(onClick,tracksHistory)
 
         val urlItunesApi = getString(R.string.base_url_itunes)
         val retrofit = Retrofit.Builder()
@@ -61,6 +65,9 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         val arrowBackFromSearch = findViewById<ImageButton>(R.id.arrow_back_from_search)
         val btnClearHistory = findViewById<Button>(R.id.btn_clear_history_search)
         val layoutOfHistory = findViewById<LinearLayout>(R.id.layout_history_search)!!
+        val progressOfSearch = findViewById<ProgressBar>(R.id.progressOfSearch)
+
+
 
 
         if (savedInstanceState != null) {
@@ -79,14 +86,14 @@ class SearchActivity : AppCompatActivity(), ClickListener {
 
         btnInputClear.setOnClickListener {
             tracks.clear()
-            tracksAdapter.notifyDataSetChanged()
             editTextSearch.setText("")
-            editTextSearch.clearFocus()
             editTextSearch.isCursorVisible = false
             btnUpdateSearch.visibility = View.GONE
             placeImgSearchErr.visibility = View.GONE
             placeImgLinkErr.visibility = View.GONE
             placeTextError.visibility = View.GONE
+            editTextSearch.clearFocus()
+            tracksAdapter.notifyDataSetChanged()
         }
         fun updateRecyclerHistory(){
             layoutOfHistory.visibility = View.VISIBLE
@@ -111,9 +118,9 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         val textWatcherSearch = object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 editTextSearch.isCursorVisible = true
-
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                searchDebounce()
                 btnInputClear.visibility = visibilityClearButton(s)
                 editTextSearch.isCursorVisible = true
                 countValue = editTextSearch.toString()
@@ -134,9 +141,10 @@ class SearchActivity : AppCompatActivity(), ClickListener {
         recyclerViewHistory.layoutManager = LinearLayoutManager(this)
         recyclerViewHistory.adapter = tracksAdapterHistory
 
-
         fun findByInput() {
+            recyclerViewTrack.visibility = View.GONE
             if (editTextSearch.text.isNotEmpty()) {
+                progressOfSearch.visibility = View.VISIBLE
                 playListService.search(editTextSearch.text.toString()).enqueue(object : Callback<SearchResponse> {
                     override fun onResponse(
                         call: Call<SearchResponse>,
@@ -144,14 +152,20 @@ class SearchActivity : AppCompatActivity(), ClickListener {
                     ) {
                         if (response.code() == 200) {
                             tracks.clear()
-                            if (response.body()?.results?.isNotEmpty() == true) {
-                                tracks.addAll(response.body()?.results!!)
-                                tracksAdapter.notifyDataSetChanged()
-                                placeImgSearchErr.visibility = View.GONE
-                                placeTextError.visibility = View.GONE
-                                btnUpdateSearch.visibility = View.GONE
+                            val response = response.body()?.results
+                            if (response != null) {
+                                if (response.isNotEmpty()) {
+                                    tracks.addAll(response)
+                                    tracksAdapter.notifyDataSetChanged()
+                                    recyclerViewTrack.visibility = View.VISIBLE
+                                    progressOfSearch.visibility = View.GONE
+                                    placeImgSearchErr.visibility = View.GONE
+                                    placeTextError.visibility = View.GONE
+                                    btnUpdateSearch.visibility = View.GONE
+                                }
                             }
                             if (tracks.isEmpty()) {
+                                progressOfSearch.visibility = View.GONE
                                 recyclerViewTrack.visibility = View.GONE
                                 placeImgSearchErr.visibility = View.VISIBLE
                                 placeTextError.visibility = View.VISIBLE
@@ -159,6 +173,7 @@ class SearchActivity : AppCompatActivity(), ClickListener {
                                 placeTextError.setText(R.string.nothing_found)
                             }
                         } else {
+                            progressOfSearch.visibility = View.GONE
                             recyclerViewTrack.visibility = View.GONE
                             placeImgLinkErr.visibility = View.VISIBLE
                             placeTextError.visibility = View.VISIBLE
@@ -167,6 +182,7 @@ class SearchActivity : AppCompatActivity(), ClickListener {
                     }
 
                     override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
+                        progressOfSearch.visibility = View.GONE
                         recyclerViewTrack.visibility = View.GONE
                         placeImgLinkErr.visibility = View.VISIBLE
                         placeTextError.visibility = View.VISIBLE
@@ -184,6 +200,8 @@ class SearchActivity : AppCompatActivity(), ClickListener {
                 })
             }
         }
+        searchRunnable = Runnable {findByInput()}
+
         editTextSearch.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 findByInput()
@@ -191,8 +209,12 @@ class SearchActivity : AppCompatActivity(), ClickListener {
             false
         }
         editTextSearch.addTextChangedListener(textWatcherSearch)
-    }
 
+    }
+    fun searchDebounce(){
+        handlerMainThread.removeCallbacks(searchRunnable)
+        handlerMainThread.postDelayed(searchRunnable, SEARCH_DELAY)
+    }
     private var countValue: String = AMOUNT_DEF
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -206,15 +228,30 @@ class SearchActivity : AppCompatActivity(), ClickListener {
             View.VISIBLE
         }
     }
-
-    override fun onClick(track: Track) {
-        searchH.addTrackToList(track)
-
+    private fun clickDebounce() : Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handlerMainThread.postDelayed({ isClickAllowed = true },
+                CLICK_DEBOUNCE_DELAY
+            )
+        }
+        return current
     }
+
+    private fun onClick(track: Track) {
+        if (clickDebounce()) {
+            val player = Intent(this, PlayerActivity::class.java)
+            player.putExtra(Track::class.java.canonicalName, track)
+            startActivity(player)
+        }
+    }
+
+
     companion object {
         const val SEARCH_AMOUNT = "SEARCH_AMOUNT"
         const val AMOUNT_DEF = ""
-        const val TRACK = "track"
-
+        const val SEARCH_DELAY = 2000L
+        const val CLICK_DEBOUNCE_DELAY = 1000L
     }
 }

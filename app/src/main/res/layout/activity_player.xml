@@ -12,7 +12,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp"
+        app:layout_constraintGuide_begin="@dimen/start_end_guideline_layout_constraintGuide_begin"
         />
 
     <androidx.constraintlayout.widget.Guideline
@@ -20,14 +20,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="16dp"
+        app:layout_constraintGuide_end="@dimen/start_end_guideline_layout_constraintGuide_begin"
         />
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/start_guideline_for_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="24dp"
+        app:layout_constraintGuide_begin="@dimen/start_end_guideline_for_btn"
         />
 
     <androidx.constraintlayout.widget.Guideline
@@ -35,7 +35,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="24dp"
+        app:layout_constraintGuide_end="@dimen/start_end_guideline_for_btn"
         />
 
     <androidx.constraintlayout.widget.Guideline
@@ -43,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="16dp"
+        app:layout_constraintGuide_begin="@dimen/start_end_guideline_layout_constraintGuide_begin"
         />
 
     <androidx.constraintlayout.widget.Guideline
@@ -58,7 +58,7 @@
         android:id="@+id/arrow_back_from_player"
         android:layout_width="@dimen/arrow_back_width_and_height"
         android:layout_height="@dimen/arrow_back_width_and_height"
-        android:src="@drawable/vector"
+        android:src="@drawable/arrow_back"
         style="@style/arrowTopBackStyle"
         android:layout_marginTop="16dp"
         android:layout_marginStart="@dimen/arrow_back_player_margin_start"
@@ -141,9 +141,10 @@
         android:id="@+id/btn_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:src="@drawable/playbtn"
         android:background="?attr/colorSecondary"
         android:contentDescription="@string/playBtn"
-        android:src="@drawable/playbtn"
+
         android:layout_marginTop="24dp"
         app:layout_constraintBottom_toTopOf="@+id/trackClock"
         app:layout_constraintEnd_toStartOf="@+id/btn_like"
@@ -159,8 +160,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btn_play"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginTop="@dimen/trackClock_marginTop"
+        android:layout_marginBottom="@dimen/trackClock_marginTop"
 
         android:contentDescription="@string/trackTime"
         android:text="@string/trackTime"
@@ -197,6 +198,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textTime"
+        android:layout_marginTop="@dimen/text_properties_margin_top"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
         app:layout_constraintTop_toBottomOf="@id/top_properties_barrier"
         app:layout_constraintBottom_toTopOf="@id/textAlbumTrack"
@@ -208,6 +210,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textAlbum"
+        android:layout_marginTop="@dimen/text_properties_margin_top"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
         app:layout_constraintTop_toBottomOf="@id/textTimeTrack"
         app:layout_constraintBottom_toTopOf="@id/textYearTrack"
@@ -219,6 +222,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textYearTrack"
+        android:layout_marginTop="@dimen/text_properties_margin_top"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
         app:layout_constraintTop_toBottomOf="@id/textAlbumTrack"
         app:layout_constraintBottom_toTopOf="@id/textGenreTrack"
@@ -230,6 +234,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textGenreTrack"
+        android:layout_marginTop="@dimen/text_properties_margin_top"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
         app:layout_constraintTop_toBottomOf="@id/textYearTrack"
         app:layout_constraintBottom_toTopOf="@id/textCountryTrack"
@@ -241,6 +246,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/countryTrack"
+        android:layout_marginTop="@dimen/text_properties_margin_top"
+        android:layout_marginBottom="20dp"
         app:layout_constraintStart_toStartOf="@id/start_guideline"
         app:layout_constraintTop_toBottomOf="@id/textGenreTrack"
         app:layout_constraintBottom_toBottomOf="@id/bottom_guideline"
@@ -253,6 +260,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textTime"
+        android:layout_marginTop="@dimen/text_properties_margin_top"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintTop_toBottomOf="@id/top_properties_barrier"
         app:layout_constraintBottom_toTopOf="@id/collectionName"
@@ -264,6 +272,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textAlbum"
+        android:layout_marginTop="@dimen/text_properties_margin_top"
+        android:maxLength = "30"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintTop_toBottomOf="@id/trackTime"
         app:layout_constraintBottom_toTopOf="@id/releaseDate"
@@ -275,6 +285,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textYearTrack"
+        android:layout_marginTop="@dimen/text_properties_margin_top"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintTop_toBottomOf="@id/collectionName"
         app:layout_constraintBottom_toTopOf="@id/primaryGenreName"
@@ -286,6 +297,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textGenreTrack"
+        android:layout_marginTop="@dimen/text_properties_margin_top"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintTop_toBottomOf="@id/releaseDate"
         app:layout_constraintBottom_toTopOf="@id/countryTrack"
@@ -297,6 +309,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/countryTrack"
+        android:layout_marginTop="@dimen/text_properties_margin_top"
+        android:layout_marginBottom="20dp"
         app:layout_constraintEnd_toEndOf="@id/end_guideline"
         app:layout_constraintTop_toBottomOf="@id/primaryGenreName"
         app:layout_constraintBottom_toBottomOf="@id/bottom_guideline"
