@@ -136,7 +136,7 @@ class PlayerActivity() : AppCompatActivity() {
         val releaseDate: TextView = findViewById(R.id.releaseDate)
         val primaryGenreName: TextView = findViewById(R.id.primaryGenreName)
         val country: TextView = findViewById(R.id.countryTrack)
-        val cornerImageTrack = 2f
+        val cornerImageTrack = 8f
 
         trackName.text = track.trackName
         artistName.text = track.artistName
@@ -168,10 +168,7 @@ class PlayerActivity() : AppCompatActivity() {
             )
             .into(iconTrack)
     }
-    fun startActivityPlayer(context: Context){
-        val player = Intent(context,PlayerActivity::class.java)
-        context.startActivity(player)
-    }
+
     companion object {
         private const val STATE_DEFAULT = 0
         private const val STATE_PREPARED = 1

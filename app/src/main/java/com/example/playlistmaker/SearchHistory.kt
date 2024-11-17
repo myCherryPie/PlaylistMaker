@@ -11,7 +11,7 @@ open class SearchHistory (private val sharedPrefs : AppSP) {
     }
 
     private fun getHistoryOfSearch(): ArrayList<Track> {
-        val json = sharedPrefs.getString(HISTORY_TRACK)
+        val json = sharedPrefs.getString(HISTORY_TRACK) ?: return ArrayList()
         val token = object : TypeToken<ArrayList<Track>>() {}.type
         return Gson().fromJson(json, token)
     }

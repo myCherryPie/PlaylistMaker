@@ -152,14 +152,17 @@ class SearchActivity : AppCompatActivity() {
                     ) {
                         if (response.code() == 200) {
                             tracks.clear()
-                            if (response.body()?.results?.isNotEmpty() == true) {
-                                tracks.addAll(response.body()?.results!!)
-                                tracksAdapter.notifyDataSetChanged()
-                                recyclerViewTrack.visibility = View.VISIBLE
-                                progressOfSearch.visibility = View.GONE
-                                placeImgSearchErr.visibility = View.GONE
-                                placeTextError.visibility = View.GONE
-                                btnUpdateSearch.visibility = View.GONE
+                            val response = response.body()?.results
+                            if (response != null) {
+                                if (response.isNotEmpty()) {
+                                    tracks.addAll(response)
+                                    tracksAdapter.notifyDataSetChanged()
+                                    recyclerViewTrack.visibility = View.VISIBLE
+                                    progressOfSearch.visibility = View.GONE
+                                    placeImgSearchErr.visibility = View.GONE
+                                    placeTextError.visibility = View.GONE
+                                    btnUpdateSearch.visibility = View.GONE
+                                }
                             }
                             if (tracks.isEmpty()) {
                                 progressOfSearch.visibility = View.GONE
@@ -225,7 +228,7 @@ class SearchActivity : AppCompatActivity() {
             View.VISIBLE
         }
     }
-    fun clickDebounce() : Boolean {
+    private fun clickDebounce() : Boolean {
         val current = isClickAllowed
         if (isClickAllowed) {
             isClickAllowed = false
@@ -236,7 +239,7 @@ class SearchActivity : AppCompatActivity() {
         return current
     }
 
-    fun onClick(track: Track) {
+    private fun onClick(track: Track) {
         if (clickDebounce()) {
             val player = Intent(this, PlayerActivity::class.java)
             player.putExtra(Track::class.java.canonicalName, track)
