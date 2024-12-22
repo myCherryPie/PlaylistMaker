@@ -6,7 +6,7 @@
     android:background="?attr/colorSecondary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SettingsActivity">
+    tools:context=".presentation.ui.SettingsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

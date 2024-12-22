@@ -6,7 +6,7 @@
     android:background="?attr/colorSecondary"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MediaActivity">
+    tools:context=".presentation.ui.MediaActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

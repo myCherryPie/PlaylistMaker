@@ -1,4 +1,4 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.presentation.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -21,11 +21,13 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import com.example.playlistmaker.AppSP
+import com.example.playlistmaker.Creator
+import com.example.playlistmaker.R
+import com.example.playlistmaker.SearchHistory
+import com.example.playlistmaker.domain.consumer.Consumer
+import com.example.playlistmaker.domain.models.Track
+import com.example.playlistmaker.presentation.presenters.TrackAdapter
 
 
 class SearchActivity : AppCompatActivity() {
@@ -38,6 +40,7 @@ class SearchActivity : AppCompatActivity() {
     private var isClickAllowed = true
     private val onClick:(Track)->Unit = { track -> onClick(track)
     searchH.addTrackToList(track)}
+    private val getUseCaseTracksInteractor = Creator.provideGetTrackListUseCase()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,12 +53,9 @@ class SearchActivity : AppCompatActivity() {
         val tracksAdapter = TrackAdapter(onClick,tracks)
         tracksAdapterHistory = TrackAdapter(onClick,tracksHistory)
 
-        val urlItunesApi = getString(R.string.base_url_itunes)
-        val retrofit = Retrofit.Builder()
-            .baseUrl(urlItunesApi)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val playListService = retrofit.create(ItunseApi::class.java)
+
+
+
         val placeImgLinkErr = findViewById<ImageView>(R.id.image_error_link)
         val placeTextError = findViewById<TextView>(R.id.text_error_search)
         val placeImgSearchErr = findViewById<ImageView>(R.id.image_error_search)
@@ -145,58 +145,47 @@ class SearchActivity : AppCompatActivity() {
             recyclerViewTrack.visibility = View.GONE
             if (editTextSearch.text.isNotEmpty()) {
                 progressOfSearch.visibility = View.VISIBLE
-                playListService.search(editTextSearch.text.toString()).enqueue(object : Callback<SearchResponse> {
-                    override fun onResponse(
-                        call: Call<SearchResponse>,
-                        response: Response<SearchResponse>
-                    ) {
-                        if (response.code() == 200) {
-                            tracks.clear()
-                            val response = response.body()?.results
-                            if (response != null) {
-                                if (response.isNotEmpty()) {
-                                    tracks.addAll(response)
-                                    tracksAdapter.notifyDataSetChanged()
-                                    recyclerViewTrack.visibility = View.VISIBLE
+
+                getUseCaseTracksInteractor.searchTracks(editTextSearch.text.toString(), consumer = object:Consumer {
+                    override fun consume(data: List<Track>) {
+                        searchRunnable.let { runnable -> handlerMainThread.removeCallbacks(runnable) }
+                        val runnable = Runnable {
+                            if (data == null)
+                            {
                                     progressOfSearch.visibility = View.GONE
-                                    placeImgSearchErr.visibility = View.GONE
-                                    placeTextError.visibility = View.GONE
-                                    btnUpdateSearch.visibility = View.GONE
+                                    recyclerViewTrack.visibility = View.GONE
+                                    placeImgLinkErr.visibility = View.VISIBLE
+                                    placeTextError.visibility = View.VISIBLE
+                                    btnUpdateSearch.visibility = View.VISIBLE
+                                    placeTextError.setText(R.string.no_link)
+                                    btnUpdateSearch.setOnClickListener {
+                                        recyclerViewTrack.visibility = View.VISIBLE
+                                        placeImgLinkErr.visibility = View.GONE
+                                        placeTextError.visibility = View.GONE
+                                        btnUpdateSearch.visibility = View.GONE
+                                        findByInput()
+                                    }
                                 }
-                            }
-                            if (tracks.isEmpty()) {
-                                progressOfSearch.visibility = View.GONE
-                                recyclerViewTrack.visibility = View.GONE
-                                placeImgSearchErr.visibility = View.VISIBLE
-                                placeTextError.visibility = View.VISIBLE
-                                btnUpdateSearch.visibility = View.GONE
-                                placeTextError.setText(R.string.nothing_found)
-                            }
-                        } else {
-                            progressOfSearch.visibility = View.GONE
-                            recyclerViewTrack.visibility = View.GONE
-                            placeImgLinkErr.visibility = View.VISIBLE
-                            placeTextError.visibility = View.VISIBLE
-                            placeTextError.setText(response.code())
-                        }
+                            if (data.isEmpty()) {
+                                        progressOfSearch.visibility = View.GONE
+                                        recyclerViewTrack.visibility = View.GONE
+                                        placeImgSearchErr.visibility = View.VISIBLE
+                                        placeTextError.visibility = View.VISIBLE
+                                        btnUpdateSearch.visibility = View.GONE
+                                        placeTextError.setText(R.string.nothing_found)
+                            } else {
+                                        val trackList = data
+                                        tracks.addAll(trackList)
+                                        tracksAdapter.notifyDataSetChanged()
+                                        recyclerViewTrack.visibility = View.VISIBLE
+                                        progressOfSearch.visibility = View.GONE
+                                        placeImgSearchErr.visibility = View.GONE
+                                        placeTextError.visibility = View.GONE
+                                        btnUpdateSearch.visibility = View.GONE
+                                    }}
+                        searchRunnable = runnable
+                        handlerMainThread.post(runnable)
                     }
-
-                    override fun onFailure(call: Call<SearchResponse>, t: Throwable) {
-                        progressOfSearch.visibility = View.GONE
-                        recyclerViewTrack.visibility = View.GONE
-                        placeImgLinkErr.visibility = View.VISIBLE
-                        placeTextError.visibility = View.VISIBLE
-                        btnUpdateSearch.visibility = View.VISIBLE
-                        placeTextError.setText(R.string.no_link)
-                        btnUpdateSearch.setOnClickListener {
-                            recyclerViewTrack.visibility = View.VISIBLE
-                            placeImgLinkErr.visibility = View.GONE
-                            placeTextError.visibility = View.GONE
-                            btnUpdateSearch.visibility = View.GONE
-                            findByInput()
-                        }
-                    }
-
                 })
             }
         }
@@ -247,6 +236,13 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        val sRunnable = searchRunnable
+        if (sRunnable != null) {
+            handlerMainThread.removeCallbacks(sRunnable)
+        }
+    }
 
     companion object {
         const val SEARCH_AMOUNT = "SEARCH_AMOUNT"
