@@ -21,39 +21,33 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.playlistmaker.AppSP
 import com.example.playlistmaker.Creator
 import com.example.playlistmaker.R
-import com.example.playlistmaker.SearchHistory
 import com.example.playlistmaker.domain.consumer.Consumer
 import com.example.playlistmaker.domain.models.Track
 import com.example.playlistmaker.presentation.presenters.TrackAdapter
 
 
 class SearchActivity : AppCompatActivity() {
-    private lateinit var  tracksHistory : ArrayList<Track>
+
+    private val getUseCaseTracksInteractor = Creator.provideGetTrackListUseCase()
+    private val getProvideGetHistoryOfSearchInteractor = Creator.provideGetHistoryOfSearchInteractor(this)
+    private var  tracksHistory = getProvideGetHistoryOfSearchInteractor.getHistoryOfSearch()
     private lateinit var tracksAdapterHistory : TrackAdapter
     private var tracks = ArrayList<Track>()
-    private lateinit var searchH : SearchHistory
     private lateinit var searchRunnable: Runnable
     private var handlerMainThread = Handler(Looper.getMainLooper())
     private var isClickAllowed = true
     private val onClick:(Track)->Unit = { track -> onClick(track)
-    searchH.addTrackToList(track)}
-    private val getUseCaseTracksInteractor = Creator.provideGetTrackListUseCase()
-
+        getProvideGetHistoryOfSearchInteractor.addTrackToHistory(track)}
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContentView(R.layout.activity_search)
 
-        searchH = SearchHistory(applicationContext as AppSP)
         tracks = mutableListOf<Track>() as ArrayList<Track>
-        tracksHistory = searchH.getTracks()
         val tracksAdapter = TrackAdapter(onClick,tracks)
         tracksAdapterHistory = TrackAdapter(onClick,tracksHistory)
-
-
 
 
         val placeImgLinkErr = findViewById<ImageView>(R.id.image_error_link)
@@ -66,8 +60,6 @@ class SearchActivity : AppCompatActivity() {
         val btnClearHistory = findViewById<Button>(R.id.btn_clear_history_search)
         val layoutOfHistory = findViewById<LinearLayout>(R.id.layout_history_search)!!
         val progressOfSearch = findViewById<ProgressBar>(R.id.progressOfSearch)
-
-
 
 
         if (savedInstanceState != null) {
@@ -97,7 +89,7 @@ class SearchActivity : AppCompatActivity() {
         }
         fun updateRecyclerHistory(){
             layoutOfHistory.visibility = View.VISIBLE
-            tracksHistory = searchH.getTracks()
+            tracksHistory = getProvideGetHistoryOfSearchInteractor.getHistoryOfSearch()
             tracksAdapterHistory.notifyDataSetChanged()
         }
         fun hideLayoutHistory(){
@@ -106,7 +98,7 @@ class SearchActivity : AppCompatActivity() {
         }
         btnClearHistory.setOnClickListener {
             hideLayoutHistory()
-            searchH.cleanList()
+            getProvideGetHistoryOfSearchInteractor.cleanHistoryOfSearch()
         }
 
         editTextSearch.setOnFocusChangeListener { _, hasFocus ->

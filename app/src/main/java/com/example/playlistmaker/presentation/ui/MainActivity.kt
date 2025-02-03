@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import com.example.playlistmaker.AppSP
+import com.example.playlistmaker.data.repositories.SettingsRepositoryImpl
 import com.example.playlistmaker.R
 
 class MainActivity : AppCompatActivity() {
@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val appSharedPreferences = applicationContext as AppSP
+        val appSharedPreferences = applicationContext as SettingsRepositoryImpl
         appSharedPreferences.switchTheme(appSharedPreferences.getSettingTheme())
 
         val btnSearch = findViewById<Button>(R.id.btn_search)

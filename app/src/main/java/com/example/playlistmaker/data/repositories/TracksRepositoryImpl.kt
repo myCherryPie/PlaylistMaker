@@ -1,6 +1,7 @@
-package com.example.playlistmaker.data
+package com.example.playlistmaker.data.repositories
 
-import com.example.playlistmaker.R
+
+import com.example.playlistmaker.data.NetworkClient
 import com.example.playlistmaker.data.dto.SearchRequest
 import com.example.playlistmaker.data.dto.SearchResponse
 import com.example.playlistmaker.domain.api.TracksRepository

@@ -10,11 +10,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.example.playlistmaker.AppSP
+import com.example.playlistmaker.Creator
+import com.example.playlistmaker.data.repositories.SettingsRepositoryImpl
 import com.example.playlistmaker.R
 import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
+    private val getSettings = Creator.provideGetSettingInteractor(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -32,11 +34,11 @@ class SettingsActivity : AppCompatActivity() {
 
         val themeSwitcher = findViewById<SwitchMaterial>(R.id.switch_dark_theme)
 
-        themeSwitcher.setChecked((applicationContext as AppSP).getSettingTheme())
+        themeSwitcher.setChecked(getSettings.getSettingTheme())
 
         themeSwitcher.setOnCheckedChangeListener { _, checked ->
-            (applicationContext as AppSP).switchTheme(checked)
-            (applicationContext as AppSP). saveSettingTheme(checked)
+            getSettings.switchTheme(checked)
+            getSettings. saveSettingTheme(checked)
 
         }
 

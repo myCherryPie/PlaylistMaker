@@ -1,22 +1,27 @@
-package com.example.playlistmaker
+package com.example.playlistmaker.data.repositories
 
+import android.content.SharedPreferences
+import com.example.playlistmaker.domain.api.HistoryOfSearchRepo
 import com.example.playlistmaker.domain.models.Track
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 
-open class SearchHistory (private val sharedPrefs : AppSP) {
-    private var tracks : ArrayList<Track> = getHistoryOfSearch()
-    private fun saveHistoryOfSearch(tracks : ArrayList<Track>) {
-        val json = Gson().toJson(tracks)
-        sharedPrefs.edit(HISTORY_TRACK,json)
-    }
+class HistoryOfSearchRepoImpl (private val sharedPrefs : SharedPreferences) : HistoryOfSearchRepo {
+     private var tracks : ArrayList<Track> = getHistoryFromGson()
 
-    private fun getHistoryOfSearch(): ArrayList<Track> {
-        val json = sharedPrefs.getString(HISTORY_TRACK) ?: return ArrayList()
+    override fun saveHistoryOfSearch(tracks : ArrayList<Track>) {
+        val json = Gson().toJson(tracks)
+        sharedPrefs.edit().putString(HISTORY_TRACK,json).apply()
+    }
+    override fun getHistoryOfSearch(): ArrayList<Track> {
+        return tracks
+    }
+    override fun getHistoryFromGson(): ArrayList<Track> {
+        val json = sharedPrefs.getString(HISTORY_TRACK,null) ?: return ArrayList()
         val token = object : TypeToken<ArrayList<Track>>() {}.type
         return Gson().fromJson(json, token)
     }
-    fun addTrackToList(track: Track) {
+    override fun addTrackToHistory(track: Track) {
         if (tracks.isEmpty()) {
             tracks.add(track)
             saveHistoryOfSearch(tracks)
@@ -41,11 +46,7 @@ open class SearchHistory (private val sharedPrefs : AppSP) {
         saveHistoryOfSearch(tracks)
     }
 
-    fun getTracks(): ArrayList<Track> {
-        return tracks
-    }
-
-    fun cleanList() {
+   override fun cleanHistoryOfSearch() {
         tracks.clear()
         saveHistoryOfSearch(tracks)
     }
